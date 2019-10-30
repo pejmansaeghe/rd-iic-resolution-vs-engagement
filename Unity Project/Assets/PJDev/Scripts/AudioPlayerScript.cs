@@ -81,7 +81,8 @@ public class AudioPlayerScript : MonoBehaviour
             hi_pitch.Play();
             Invoke("StopBeep", duration);
         }
-        timer = 0f;
+        timeForNextBeep = Mathf.Infinity;
+        //timer = 0f;
     }
 
     public void StopBeep()
