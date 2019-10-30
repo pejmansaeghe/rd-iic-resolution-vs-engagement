@@ -10,7 +10,10 @@ public class AudioPlayerScript : MonoBehaviour
 
     public int timeBetweenBeepsSeconds;
     private static AudioSource lo_pitch, hi_pitch;
-    private float timer;
+    //private float timer;
+
+    public float timeForNextBeep { get; private set; }
+
 
     // toggle=false means sound off, toggle=true means sound on
     bool lo_toggle, hi_toggle, _playBeep;
@@ -20,31 +23,45 @@ public class AudioPlayerScript : MonoBehaviour
         //Fetch the AudioSources from the GameObject
         lo_pitch = GameObject.FindGameObjectWithTag(tag: "Lo_Pitch").GetComponent<AudioSource>();
         hi_pitch = GameObject.FindGameObjectWithTag(tag: "Hi_Pitch").GetComponent<AudioSource>();
-        lo_toggle = false;
-        hi_toggle = false;
         _playBeep = false;
-        timer = 0.0f;
+        //timer = 0.0f;
+        timeForNextBeep = Mathf.Infinity;
     }
 
 
     void FixedUpdate()
     {
-        timer += Time.fixedUnscaledDeltaTime;
-        //Debug.Log(timer);
+        //timer += Time.fixedUnscaledDeltaTime;
+        //Debug.Log(timeForNextBeep);
 
-        if (Input.GetKeyDown("space"))
+        if (Time.realtimeSinceStartup > timeForNextBeep)
         {
-            timer = 0.0f;
-            _playBeep = true;
+            PlayBeep(0.01f);
         }
 
-        if (_playBeep)
-        {
-            if (timer > timeBetweenBeepsSeconds)
-            {
-                PlayBeep(0.01f);
-            }
-        }
+        //if (Input.GetKeyDown("space"))
+        //{
+        //    timer = 0.0f;
+        //    _playBeep = true;
+        //}
+
+        //if (_playBeep)
+        //{
+        //    if (timer > timeBetweenBeepsSeconds)
+        //    {
+        //        PlayBeep(0.01f);
+        //    }
+        //}
+    }
+
+    public void StartBeeping()
+    {
+        timeForNextBeep = Time.realtimeSinceStartup + timeBetweenBeepsSeconds;
+    }
+
+    public void StopBeeping()
+    {
+        timeForNextBeep = Mathf.Infinity;
     }
 
     /// <summary>
@@ -73,3 +90,5 @@ public class AudioPlayerScript : MonoBehaviour
         hi_pitch.Stop();
     }
 }
+
+
