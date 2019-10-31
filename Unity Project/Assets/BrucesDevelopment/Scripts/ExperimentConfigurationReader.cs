@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Text;
+﻿using System;
 using System.IO;
 using UnityEngine;
 
-public class ExperimentConfigurationReader : MonoBehaviour
+public class ExperimentConfigurationReader
 {
-    // Start is called before the first frame update
+    
     private Experiment experiment = null;
 
     /// <summary>
