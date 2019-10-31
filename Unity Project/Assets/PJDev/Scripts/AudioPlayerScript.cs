@@ -6,7 +6,7 @@ public class AudioPlayerScript : MonoBehaviour
     private static AudioSource lo_pitch, hi_pitch;
     public float timeForNextBeep { get; private set; }
 
-    void Start()
+    void Awake()
     {
         lo_pitch = GameObject.FindGameObjectWithTag(tag: "Lo_Pitch").GetComponent<AudioSource>();
         hi_pitch = GameObject.FindGameObjectWithTag(tag: "Hi_Pitch").GetComponent<AudioSource>();

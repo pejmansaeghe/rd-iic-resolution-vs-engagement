@@ -13,6 +13,7 @@ public class ExperimentControl : MonoBehaviour
     public TMP_Text messageText;
     public VideoPlayer videoPlayer;
     public GameObject canvas;
+    public AudioPlayerScript beeper;
     public float experimentStartDelay = 3f;
     private int currentExperiment=0;
     private int currentVideo = 0;
@@ -107,11 +108,15 @@ public class ExperimentControl : MonoBehaviour
 
         videoPlayer.url = url;
         videoPlayer.Play();
+
+        beeper.StartBeeping();
     }
 
     void onLatestVideoFinished(VideoPlayer source)
     {
         Debug.Log("video finished");
+
+        beeper.StopBeeping();
 
         currentVideo += 1;
 
