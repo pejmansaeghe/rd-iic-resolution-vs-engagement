@@ -36,8 +36,30 @@
                 },
                 {
                     "name": "",
+                    "id": "a66d1aa5-16f6-4e4e-8c35-cc739f2c437d",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HighBeep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ce7c67da-e5ea-48e2-9108-a642b0181d4e",
                     "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowBeep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e2d25f3-0b89-4a8a-bac7-ba85db726a35",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
