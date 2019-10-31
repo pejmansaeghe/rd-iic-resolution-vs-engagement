@@ -3,7 +3,7 @@
 # rd-iic-resolution-vs-engagement
 Experimental software for testing how display resolution affects viewer engagement using secondary task reaction time.
 
-## Intructions
+## Instructions
 ### Experiment concept 
 The experiment involves showing users a series of videos, during which short audio tones are are played. The user is instructed to press a button on an input device (such as a game controller) whenever they hear one of the audio tones. The button to press depends on which particular tone they heard. The time taken for the user to press a button is measured.
 The hypothesis is that the more engaging a piece of video content is, the longer it will take for the user to respond to the audio tone (and possibly their accuracy in pressing the correct button will also suffer).
