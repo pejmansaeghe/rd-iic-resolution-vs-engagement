@@ -1775,7 +1775,7 @@ PrefabInstance:
     - target: {fileID: 3005768329801167257, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
         type: 3}
       propertyPath: timeBetweenBeepsSeconds
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17bcc8ac1523d3c4b973b4425ae32b8b, type: 3}
