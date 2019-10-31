@@ -1,0 +1,52 @@
+{
+    "name": "UserInput",
+    "maps": [
+        {
+            "name": "UserResponse",
+            "id": "75da0a69-1422-4fc3-8716-19903dd55104",
+            "actions": [
+                {
+                    "name": "HighBeep",
+                    "type": "Button",
+                    "id": "ef2b3781-0e7b-47e0-9ad4-3930a6acb024",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LowBeep",
+                    "type": "Button",
+                    "id": "1b1635f6-4582-491c-b515-a00b39f20a5c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4c1b86fe-32de-4936-ad2a-d27bcca7768b",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HighBeep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce7c67da-e5ea-48e2-9108-a642b0181d4e",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowBeep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

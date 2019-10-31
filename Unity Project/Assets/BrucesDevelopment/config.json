@@ -1,0 +1,16 @@
+{
+    "experimentConfigurations": [
+        {
+            "experimentNumber":0,
+            "videoUrls":["lion_full.mp4", "seal_half.mp4", "badger_low.mp4"]
+        },
+        {
+            "experimentNumber":1,
+            "videoUrls":["lion_half.mp4", "seal_low.mp4", "badger_full.mp4"]
+        },
+        {
+            "experimentNumber":2,
+            "videoUrls":["lion_low.mp4", "seal_full.mp4", "badger_half.mp4"]
+        }
+    ]
+}
