@@ -4,13 +4,17 @@ public class AudioPlayerScript : MonoBehaviour
 {
     public int timeBetweenBeepsSeconds;
     private static AudioSource lo_pitch, hi_pitch;
-    public float timeForNextBeep { get; private set; }
+    public static float timeForNextBeep;
+
+    private void Awake()
+    {
+        timeForNextBeep = Mathf.Infinity;
+    }
 
     void Start()
     {
         lo_pitch = GameObject.FindGameObjectWithTag(tag: "Lo_Pitch").GetComponent<AudioSource>();
         hi_pitch = GameObject.FindGameObjectWithTag(tag: "Hi_Pitch").GetComponent<AudioSource>();
-        timeForNextBeep = Mathf.Infinity;
     }
 
     void FixedUpdate()

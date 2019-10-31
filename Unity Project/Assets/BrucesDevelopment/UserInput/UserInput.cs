@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/BrucesDevelopment/UserInput.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/BrucesDevelopment/UserInput/UserInput.inputactions'
 
 using System;
 using System.Collections;
