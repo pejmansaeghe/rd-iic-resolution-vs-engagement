@@ -13,17 +13,16 @@ public class Tutorial : MonoBehaviour
     public Beeper beeper;
     TMP_Text messageText;
     GameObject button;
-    PlayerControls controls;
+    UserInput userInput;
     private bool awaitingUserResponse = false;
 
 
     void Awake()
     {
-        beeper = GameObject.FindGameObjectWithTag("beeper").GetComponent<Beeper>();
-        controls = new PlayerControls();
+        userInput = new UserInput();
 
-        controls.Player.HighBeep.performed += _ => HighBeepResponse();
-        controls.Player.LowBeep.performed += _ => LowBeepResponse();
+        userInput.UserResponse.HighBeep.performed += _ => HighBeepResponse();
+        userInput.UserResponse.LowBeep.performed += _ => LowBeepResponse();
 
         messageText = GameObject.FindGameObjectWithTag("tutorial_message").GetComponent<TMP_Text>();
 
@@ -49,12 +48,12 @@ public class Tutorial : MonoBehaviour
 
     void OnEnable()
     {
-        controls.Enable();
+        userInput.Enable();
     }
 
     void OnDisable()
     {
-        controls.Disable();
+        userInput.Disable();
     }
 
     public void StartTutorial()
