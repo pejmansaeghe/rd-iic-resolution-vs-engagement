@@ -11,12 +11,12 @@ public class Tutorial : MonoBehaviour
 {
     //public GameObject canvas;
     public Beeper beeper;
-    TMP_Text messageText;
+    public TMP_Text messageText;
     GameObject button;
     UserInput userInput;
     private bool awaitingUserResponse = false;
 
-
+    private float clearMessageTime = Mathf.Infinity;
     void Awake()
     {
         userInput = new UserInput();
@@ -24,18 +24,19 @@ public class Tutorial : MonoBehaviour
         userInput.UserResponse.HighBeep.performed += _ => HighBeepResponse();
         userInput.UserResponse.LowBeep.performed += _ => LowBeepResponse();
 
-        messageText = GameObject.FindGameObjectWithTag("tutorial_message").GetComponent<TMP_Text>();
-
+        
         beeper.onBeep = BeepTriggered;
+
 
     }
 
     private void Update()
     {
         //Debug.Log(Time.realtimeSinceStartup - beeper.GetLastBeepTime());
-        if (Time.realtimeSinceStartup - beeper.GetLastBeepTime() > 4 )
+        if (Time.realtimeSinceStartup > clearMessageTime)
         {
-            ResetTextMessage("");
+           ClearDisplay();
+           clearMessageTime = Mathf.Infinity;
         }
     }
 
@@ -60,6 +61,10 @@ public class Tutorial : MonoBehaviour
     {
         //Debug.Log("start button pressed");
         beeper.StartBeeping();
+
+        DisplayMessage("Get ready.....");
+
+        clearMessageTime = Time.realtimeSinceStartup + beeper.timeBetweenBeepsSeconds - 1;
     }
 
     public void LowBeepResponse()
@@ -72,14 +77,16 @@ public class Tutorial : MonoBehaviour
         }
         if (beepState == Beeper.BeepState.Low)
         {
-            PrintMessage("Correct button was pressed. Well done.");
+            DisplayMessage("Correct button was pressed. Well done.");
         }
         else
         {
-            PrintMessage("Incorrect button. You'll get it next time.");
+            DisplayMessage("Incorrect button. You'll get it next time.");
         }
         beepState = Beeper.BeepState.None;
         awaitingUserResponse = false;
+
+        clearMessageTime = Time.realtimeSinceStartup + 3;
 
     }
 
@@ -93,25 +100,28 @@ public class Tutorial : MonoBehaviour
         }
         if (beepState == Beeper.BeepState.High)
         {
-            PrintMessage("Correct button was pressed. Well done.");
+            DisplayMessage("Correct button was pressed. Well done.");
         }
         else
         {
-            PrintMessage("Incorrect button. You'll get it next time.");
+            DisplayMessage("Incorrect button. You'll get it next time.");
         }
         beepState = Beeper.BeepState.None;
         awaitingUserResponse = false;
 
+        clearMessageTime = Time.realtimeSinceStartup + 3;
+
     }
 
-    void PrintMessage(string message)
+    void DisplayMessage(string message)
     {
         messageText.text= message;
     }
 
-    void ResetTextMessage(string m)
+    void ClearDisplay()
     {
-        messageText.text = m;
+        Debug.Log("clear display");
+        messageText.text = "";
     }
 
     public void StopTutorial()

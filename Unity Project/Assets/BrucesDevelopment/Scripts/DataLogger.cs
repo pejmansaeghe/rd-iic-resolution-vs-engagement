@@ -81,9 +81,10 @@ public class DataLogger : MonoBehaviour
 
         try
         {
-            UnicodeEncoding uniencoding = new UnicodeEncoding();
+            //UnicodeEncoding uniencoding = new UnicodeEncoding();
+            UTF8Encoding utf8 = new UTF8Encoding();
 
-            byte[] result = uniencoding.GetBytes(message);
+            byte[] result = utf8.GetBytes(message);
 
             currentFile.Write(result, 0, result.Length);
         }
