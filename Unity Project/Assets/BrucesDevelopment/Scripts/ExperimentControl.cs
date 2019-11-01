@@ -13,17 +13,45 @@ public class ExperimentControl : MonoBehaviour
     public TMP_Text messageText;
     public VideoPlayer videoPlayer;
     public GameObject canvas;
-    public AudioPlayerScript beeper;
+    public Beeper beeper;
     public float experimentStartDelay = 3f;
     private int currentExperiment=0;
     private int currentVideo = 0;
     private ExperimentConfiguration experimentConfiguration;
 
+    private UserInput userInput;
     private string[] videoURlsForExperiment;
+
+    private bool awaitingUserResponse = false;
+
     void Awake()
     {
         videoPlayer.loopPointReached += onLatestVideoFinished;
+
+        userInput = new UserInput();
+
+        userInput.ExperimentControls.Quit.performed += _ => Application.Quit();
+        userInput.ExperimentControls.PauseVideo.performed += _ => Pause();
+        userInput.ExperimentControls.RestartVideo.performed += _ => RestartCurrentVideo();
+
+        userInput.UserResponse.LowBeep.performed += _ => LowBeepUserResponse();
+        userInput.UserResponse.HighBeep.performed += _ => HighBeepUserResponse();
+
+        beeper.onBeep = BeepTriggered;
     }
+
+    void OnEnable()
+    {
+        userInput.ExperimentControls.Enable();
+        userInput.UserResponse.Enable();
+    }
+
+    void OnDisable()
+    {
+        userInput.ExperimentControls.Disable();
+        userInput.UserResponse.Disable();
+    }
+
 
     public void BeginExperiment()
     {
@@ -130,6 +158,104 @@ public class ExperimentControl : MonoBehaviour
             PlayVideo(videoURlsForExperiment[currentVideo]);
         }
     }
+
+    void Pause()
+    {
+        if(videoPlayer.isPaused)
+        {
+            videoPlayer.Play();
+            beeper.StartBeeping();
+        }
+        else
+        {
+            videoPlayer.Pause();
+            beeper.StopBeeping();
+            DataLogger.Instance.WriteToFile("Video Paused");
+        }
+    }
+
+    void RestartCurrentVideo()
+    {
+        videoPlayer.Stop();
+        beeper.StopBeeping();
+        videoPlayer.Play();
+        beeper.StartBeeping();
+
+        DataLogger.Instance.WriteToFile("Video Restarting");
+    }
+
+    private void BeepTriggered()
+    {
+        Debug.Log("BeepTriggered");
+
+        if(awaitingUserResponse && beeper.previousBeepState != Beeper.BeepState.None)
+        {
+            LogResult(beeper.previousBeepState, false, -1);
+        }
+
+        awaitingUserResponse = true;
+    }
+
+    public void LowBeepUserResponse()
+    {
+        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
+
+        Beeper.BeepState beepState = beeper.beepState;
+
+        if(beepState == Beeper.BeepState.None)
+        {
+            return;
+        }
+
+        if(beepState == Beeper.BeepState.Low)
+        {
+            LogResult(beepState, true, responseDelay);
+        } 
+        else
+        {
+            LogResult(beepState, false, responseDelay);
+        }
+
+        beepState = Beeper.BeepState.None;
+
+        awaitingUserResponse = false;
+
+    }
+
+    public void HighBeepUserResponse()
+    {
+        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
+
+        Beeper.BeepState beepState = beeper.beepState;
+
+        if(beepState == Beeper.BeepState.None)
+        {
+            return;
+        }
+
+        if(beepState == Beeper.BeepState.High)
+        {
+            LogResult(beepState, true, responseDelay);
+        } 
+        else
+        {
+            LogResult(beepState, false, responseDelay);
+        }
+
+        beepState = Beeper.BeepState.None;
+
+        awaitingUserResponse = false;
+
+        
+    }
+
+    void LogResult(Beeper.BeepState type, bool correct, float responseDelay)
+    {
+        Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay);
+        
+        DataLogger.Instance.WriteToFile(type.ToString() + ", " + correct + ", " + responseDelay);
+    }
+
 
     void DisplayMessage(string error)
     {
