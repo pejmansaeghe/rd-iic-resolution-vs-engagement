@@ -10,9 +10,9 @@ public class KeyboardController : MonoBehaviour
 
     public void Awake()
     {
-        AudioPlayerScript audioPlayer = GameObject.FindObjectOfType<AudioPlayerScript>();
+        Beeper audioPlayer = GameObject.FindObjectOfType<Beeper>();
         controls = new PlayerControls();
-        audioPlayer = new AudioPlayerScript();
+        audioPlayer = new Beeper();
         
         // start tutorial with spacebar and quit by pressing q
         controls.Player.StartTutorial.performed += _ => audioPlayer.StartBeeping();

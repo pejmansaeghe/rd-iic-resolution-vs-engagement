@@ -12,7 +12,7 @@ public class Tutorial : MonoBehaviour
     private float lastBeepTime = 0;
 
     //public GameObject canvas;
-    public AudioPlayerScript beeper;
+    public Beeper beeper;
     TMP_Text messageText;
     GameObject button;
     PlayerControls controls;
@@ -43,7 +43,7 @@ public class Tutorial : MonoBehaviour
 
     private void Start()
     {
-        beeper = new AudioPlayerScript();
+        beeper = new Beeper();
         
     }
 
