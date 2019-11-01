@@ -26,6 +26,11 @@ public class DataLogger : MonoBehaviour
 
     void OnApplicationQuit()
     {
+        CloseLogFile();
+    }
+
+    public void CloseLogFile()
+    {
         if(currentFile != null)
         {
             currentFile.Flush();
@@ -35,11 +40,7 @@ public class DataLogger : MonoBehaviour
 
     public bool SetFileName(string fileName)
     {
-        if(currentFile != null)
-        {
-            currentFile.Flush();
-            currentFile.Close();
-        }
+        CloseLogFile();
 
         string filePath = Path.Combine(Application.persistentDataPath, fileName);
 

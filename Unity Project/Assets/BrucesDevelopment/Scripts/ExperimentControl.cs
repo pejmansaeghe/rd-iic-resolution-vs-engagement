@@ -278,15 +278,15 @@ public class ExperimentControl : MonoBehaviour
     }
 
 
-    void DisplayMessage(string error)
+    void DisplayMessage(string message)
     {
         canvas.SetActive(true);
-        messageText.text = error;
+        messageText.text = message;
     }
 
     void EndExperiment()
     {
-        DisplayMessage("Fin\nThank you for participating.");
+        DisplayMessage("");
     }
 
 }
