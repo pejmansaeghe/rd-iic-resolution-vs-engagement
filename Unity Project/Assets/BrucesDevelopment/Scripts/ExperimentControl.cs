@@ -15,7 +15,7 @@ public class ExperimentControl : MonoBehaviour
     public GameObject canvas;
     public Beeper beeper;
     public float experimentStartDelay = 3f;
-    private int currentExperiment=0;
+    private int currentExperiment = 1;
     private int currentVideo = 0;
     private ExperimentConfiguration experimentConfiguration;
 
@@ -286,6 +286,7 @@ public class ExperimentControl : MonoBehaviour
 
     void EndExperiment()
     {
+        DataLogger.Instance.CloseLogFile();
         DisplayMessage("");
     }
 

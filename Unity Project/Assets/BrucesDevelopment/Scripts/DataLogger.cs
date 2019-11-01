@@ -69,7 +69,7 @@ public class DataLogger : MonoBehaviour
     public bool WriteToFile(string message)
     {
         if(currentFile == null)
-        {
+        {            
             Debug.Log("DataLogger error. null file in WriteToFile");
             return false;
         }
