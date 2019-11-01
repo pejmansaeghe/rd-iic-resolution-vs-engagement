@@ -131,6 +131,14 @@ public class UserInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ShowMouseCursor"",
+                    ""type"": ""Value"",
+                    ""id"": ""1901ba4b-f960-4bb4-842a-2cf7c728aedd"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -166,6 +174,28 @@ public class UserInput : IInputActionCollection, IDisposable
                     ""action"": ""Quit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d648a709-605d-4d00-bdb2-bce6c5ad978b"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowMouseCursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""896af06b-b5b4-4221-b326-416c9ccb5245"",
+                    ""path"": ""<Mouse>/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowMouseCursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -181,6 +211,7 @@ public class UserInput : IInputActionCollection, IDisposable
         m_ExperimentControls_PauseVideo = m_ExperimentControls.FindAction("PauseVideo", throwIfNotFound: true);
         m_ExperimentControls_RestartVideo = m_ExperimentControls.FindAction("RestartVideo", throwIfNotFound: true);
         m_ExperimentControls_Quit = m_ExperimentControls.FindAction("Quit", throwIfNotFound: true);
+        m_ExperimentControls_ShowMouseCursor = m_ExperimentControls.FindAction("ShowMouseCursor", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -274,6 +305,7 @@ public class UserInput : IInputActionCollection, IDisposable
     private readonly InputAction m_ExperimentControls_PauseVideo;
     private readonly InputAction m_ExperimentControls_RestartVideo;
     private readonly InputAction m_ExperimentControls_Quit;
+    private readonly InputAction m_ExperimentControls_ShowMouseCursor;
     public struct ExperimentControlsActions
     {
         private UserInput m_Wrapper;
@@ -281,6 +313,7 @@ public class UserInput : IInputActionCollection, IDisposable
         public InputAction @PauseVideo => m_Wrapper.m_ExperimentControls_PauseVideo;
         public InputAction @RestartVideo => m_Wrapper.m_ExperimentControls_RestartVideo;
         public InputAction @Quit => m_Wrapper.m_ExperimentControls_Quit;
+        public InputAction @ShowMouseCursor => m_Wrapper.m_ExperimentControls_ShowMouseCursor;
         public InputActionMap Get() { return m_Wrapper.m_ExperimentControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -299,6 +332,9 @@ public class UserInput : IInputActionCollection, IDisposable
                 Quit.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
                 Quit.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
                 Quit.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
+                ShowMouseCursor.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
+                ShowMouseCursor.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
+                ShowMouseCursor.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
             }
             m_Wrapper.m_ExperimentControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -312,6 +348,9 @@ public class UserInput : IInputActionCollection, IDisposable
                 Quit.started += instance.OnQuit;
                 Quit.performed += instance.OnQuit;
                 Quit.canceled += instance.OnQuit;
+                ShowMouseCursor.started += instance.OnShowMouseCursor;
+                ShowMouseCursor.performed += instance.OnShowMouseCursor;
+                ShowMouseCursor.canceled += instance.OnShowMouseCursor;
             }
         }
     }
@@ -326,5 +365,6 @@ public class UserInput : IInputActionCollection, IDisposable
         void OnPauseVideo(InputAction.CallbackContext context);
         void OnRestartVideo(InputAction.CallbackContext context);
         void OnQuit(InputAction.CallbackContext context);
+        void OnShowMouseCursor(InputAction.CallbackContext context);
     }
 }
