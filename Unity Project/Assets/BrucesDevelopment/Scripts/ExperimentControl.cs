@@ -21,6 +21,9 @@ public class ExperimentControl : MonoBehaviour
 
     private UserInput userInput;
     private string[] videoURlsForExperiment;
+
+    private bool awaitingUserResponse = false;
+
     void Awake()
     {
         videoPlayer.loopPointReached += onLatestVideoFinished;
@@ -30,16 +33,23 @@ public class ExperimentControl : MonoBehaviour
         userInput.ExperimentControls.Quit.performed += _ => Application.Quit();
         userInput.ExperimentControls.PauseVideo.performed += _ => Pause();
         userInput.ExperimentControls.RestartVideo.performed += _ => RestartCurrentVideo();
+
+        userInput.UserResponse.LowBeep.performed += _ => LowBeepUserResponse();
+        userInput.UserResponse.HighBeep.performed += _ => HighBeepUserResponse();
+
+        beeper.onBeep = BeepTriggered;
     }
 
     void OnEnable()
     {
         userInput.ExperimentControls.Enable();
+        userInput.UserResponse.Enable();
     }
 
     void OnDisable()
     {
         userInput.ExperimentControls.Disable();
+        userInput.UserResponse.Disable();
     }
 
 
@@ -170,6 +180,79 @@ public class ExperimentControl : MonoBehaviour
         videoPlayer.Play();
         beeper.StartBeeping();
     }
+
+    private void BeepTriggered()
+    {
+        Debug.Log("BeepTriggered");
+
+        if(awaitingUserResponse && beeper.previousBeepState != AudioPlayerScript.BeepState.None)
+        {
+            LogResult(beeper.previousBeepState, false, -1);
+        }
+
+        awaitingUserResponse = true;
+    }
+
+    public void LowBeepUserResponse()
+    {
+        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
+
+        AudioPlayerScript.BeepState beepState = beeper.beepState;
+
+        if(beepState == AudioPlayerScript.BeepState.None)
+        {
+            return;
+        }
+
+        if(beepState == AudioPlayerScript.BeepState.Low)
+        {
+            LogResult(beepState, true, responseDelay);
+        } 
+        else
+        {
+            LogResult(beepState, false, responseDelay);
+        }
+
+        beepState = AudioPlayerScript.BeepState.None;
+
+        awaitingUserResponse = false;
+
+    }
+
+    public void HighBeepUserResponse()
+    {
+        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
+
+        AudioPlayerScript.BeepState beepState = beeper.beepState;
+
+        if(beepState == AudioPlayerScript.BeepState.None)
+        {
+            return;
+        }
+
+        if(beepState == AudioPlayerScript.BeepState.High)
+        {
+            LogResult(beepState, true, responseDelay);
+        } 
+        else
+        {
+            LogResult(beepState, false, responseDelay);
+        }
+
+        beepState = AudioPlayerScript.BeepState.None;
+
+        awaitingUserResponse = false;
+
+        
+    }
+
+    void LogResult(AudioPlayerScript.BeepState type, bool correct, float responseDelay)
+    {
+        Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay);
+        
+        DataLogger.Instance.WriteToFile(type.ToString() + ", " + correct + ", " + responseDelay);
+    }
+
 
     void DisplayMessage(string error)
     {

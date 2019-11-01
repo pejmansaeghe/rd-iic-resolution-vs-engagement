@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
+using System;
 
 public class AudioPlayerScript : MonoBehaviour
 {
-    enum BeepState{None, Low, High};
+    public enum BeepState{None, Low, High};
 
+    public Action onBeep;
     public int timeBetweenBeepsSeconds;
     private static AudioSource lo_pitch, hi_pitch;
     public float timeForNextBeep { get; private set; }
 
-    private UserInput userInput;
 
-    private BeepState beepState;
+    public BeepState beepState;
+    public BeepState previousBeepState;
 
     private float lastBeepTime = 0;
-    private bool awaitingUserResponse = false;
 
     void Awake()
     {
@@ -21,22 +22,9 @@ public class AudioPlayerScript : MonoBehaviour
         hi_pitch = GameObject.FindGameObjectWithTag(tag: "Hi_Pitch").GetComponent<AudioSource>();
         timeForNextBeep = Mathf.Infinity;
 
-        userInput = new UserInput();
-
-        userInput.UserResponse.LowBeep.performed += _ => LowBeepUserResponse();
-        userInput.UserResponse.HighBeep.performed += _ => HighBeepUserResponse();
 
         beepState = BeepState.None;
-    }
-
-    void OnEnable()
-    {
-        userInput.UserResponse.Enable();
-    }
-
-    void OnDisable()
-    {
-        userInput.UserResponse.Disable();
+        previousBeepState = BeepState.None;
     }
 
     void FixedUpdate()
@@ -62,10 +50,8 @@ public class AudioPlayerScript : MonoBehaviour
 
     public void PlayBeep(float duration)
     {
-        if(awaitingUserResponse && beepState != BeepState.None)
-        {
-            LogResult(beepState, false, -1);
-        }
+        
+        previousBeepState = beepState;
 
         if (UnityEngine.Random.value < 0.5)
         {
@@ -89,7 +75,11 @@ public class AudioPlayerScript : MonoBehaviour
 
         timeForNextBeep = Time.realtimeSinceStartup + timeBetweenBeepsSeconds;
 
-        awaitingUserResponse = true;
+        if(onBeep != null)
+        {
+            onBeep();
+        }
+
     }
 
     public void StopBeep()
@@ -98,56 +88,12 @@ public class AudioPlayerScript : MonoBehaviour
         hi_pitch.Stop();
     }
 
-    public void LowBeepUserResponse()
+    public float GetLastBeepTime()
     {
-        float responseDelay = Time.realtimeSinceStartup - lastBeepTime;
-
-        if(beepState == BeepState.None)
-        {
-            return;
-        }
-
-        if(beepState == BeepState.Low)
-        {
-            LogResult(beepState, true, responseDelay);
-        } else
-        {
-            LogResult(beepState, false, responseDelay);
-        }
-
-        beepState = BeepState.None;
-
-        awaitingUserResponse = false;
+        return lastBeepTime;    
     }
 
-    public void HighBeepUserResponse()
-    {
-        float responseDelay = Time.realtimeSinceStartup - lastBeepTime;
 
-        if(beepState == BeepState.None)
-        {
-            return;
-        }
-
-        if(beepState == BeepState.High)
-        {
-            LogResult(beepState, true, responseDelay);
-        } else
-        {
-            LogResult(beepState, false, responseDelay);
-        }
-
-        beepState = BeepState.None;
-
-        awaitingUserResponse = false;
-    }
-
-    void LogResult(BeepState type, bool correct, float responseDelay)
-    {
-        Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay);
-        
-        DataLogger.Instance.WriteToFile(type.ToString() + ", " + correct + ", " + responseDelay);
-    }
 }
 
 
