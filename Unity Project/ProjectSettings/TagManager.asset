@@ -8,6 +8,7 @@ TagManager:
   - Lo_Pitch
   - tutorial_button
   - tutorial_message
+  - beeper
   layers:
   - Default
   - TransparentFX

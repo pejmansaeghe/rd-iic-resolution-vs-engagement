@@ -4,23 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
+using System;
+using UnityEngine.SceneManagement;
 
 public class Tutorial : MonoBehaviour
 {
-    enum PreviousBeep { None, Low, High };
-    private PreviousBeep previousBeep;
-    private float lastBeepTime = 0;
-
     //public GameObject canvas;
     public Beeper beeper;
     TMP_Text messageText;
     GameObject button;
     PlayerControls controls;
-
+    private bool awaitingUserResponse = false;
 
 
     void Awake()
     {
+        beeper = GameObject.FindGameObjectWithTag("beeper").GetComponent<Beeper>();
         controls = new PlayerControls();
 
         controls.Player.HighBeep.performed += _ => HighBeepResponse();
@@ -28,6 +27,24 @@ public class Tutorial : MonoBehaviour
 
         messageText = GameObject.FindGameObjectWithTag("tutorial_message").GetComponent<TMP_Text>();
 
+        beeper.onBeep = BeepTriggered;
+
+    }
+
+    private void Update()
+    {
+        //Debug.Log(Time.realtimeSinceStartup - beeper.GetLastBeepTime());
+        if (Time.realtimeSinceStartup - beeper.GetLastBeepTime() > 4 )
+        {
+            ResetTextMessage("");
+        }
+    }
+
+    private void BeepTriggered()
+    {
+        awaitingUserResponse = true;
+        //ResetTextMessage();
+        //messageText.text = "";
     }
 
     void OnEnable()
@@ -40,69 +57,72 @@ public class Tutorial : MonoBehaviour
         controls.Disable();
     }
 
-
-    private void Start()
-    {
-        beeper = new Beeper();
-        
-    }
-
     public void StartTutorial()
     {
-
+        //Debug.Log("start button pressed");
         beeper.StartBeeping();
     }
 
     public void LowBeepResponse()
     {
-        float responseDelay = Time.realtimeSinceStartup - lastBeepTime;
+        Beeper.BeepState beepState = beeper.beepState;
 
-        if (previousBeep == PreviousBeep.None)
+        if (beepState == Beeper.BeepState.None || !awaitingUserResponse)
         {
             return;
         }
-
-        if (previousBeep == PreviousBeep.Low)
+        if (beepState == Beeper.BeepState.Low)
         {
-            LogResult(previousBeep, true, responseDelay);
+            PrintMessage("Correct button was pressed. Well done.");
         }
         else
         {
-            LogResult(previousBeep, false, responseDelay);
+            PrintMessage("Incorrect button. You'll get it next time.");
         }
+        beepState = Beeper.BeepState.None;
+        awaitingUserResponse = false;
 
-        previousBeep = PreviousBeep.None;
     }
 
     public void HighBeepResponse()
     {
-        float responseDelay = Time.realtimeSinceStartup - lastBeepTime;
+        Beeper.BeepState beepState = beeper.beepState;
 
-        if (previousBeep == PreviousBeep.None)
+        if (beepState == Beeper.BeepState.None || !awaitingUserResponse)
         {
             return;
         }
-
-        if (previousBeep == PreviousBeep.High)
+        if (beepState == Beeper.BeepState.High)
         {
-            LogResult(previousBeep, true, responseDelay);
+            PrintMessage("Correct button was pressed. Well done.");
         }
         else
         {
-            LogResult(previousBeep, false, responseDelay);
+            PrintMessage("Incorrect button. You'll get it next time.");
         }
+        beepState = Beeper.BeepState.None;
+        awaitingUserResponse = false;
 
-        previousBeep = PreviousBeep.None;
     }
 
-    //void DisplayMessage(string message)
-    //{
-    //    messageText.text = message;
-    //}
-    void LogResult(PreviousBeep type, bool correct, float responseDelay)
+    void PrintMessage(string message)
     {
-        Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay);
-        //messageText.text = correct.ToString();
+        messageText.text= message;
+    }
 
+    void ResetTextMessage(string m)
+    {
+        messageText.text = m;
+    }
+
+    public void StopTutorial()
+    {
+        beeper.StopBeeping();
+    }
+
+    public void StartExperiment()
+    {
+        beeper.StopBeeping();
+        SceneManager.LoadSceneAsync("BrucesDevelopment/Scenes/VideoPlayerScene");
     }
 }

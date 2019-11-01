@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/BrucesDevelopment/Scenes/VideoPlayerScene.unity
+    guid: 75cb588397357974484c606602cf5ea3
   m_configObjects: {}
