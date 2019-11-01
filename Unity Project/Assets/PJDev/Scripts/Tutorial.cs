@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
+using System;
+using UnityEngine.SceneManagement;
 
 public class Tutorial : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class Tutorial : MonoBehaviour
     TMP_Text messageText;
     GameObject button;
     PlayerControls controls;
-
+    private bool awaitingUserResponse = false;
 
 
     void Awake()
@@ -25,6 +27,24 @@ public class Tutorial : MonoBehaviour
 
         messageText = GameObject.FindGameObjectWithTag("tutorial_message").GetComponent<TMP_Text>();
 
+        beeper.onBeep = BeepTriggered;
+
+    }
+
+    private void Update()
+    {
+        //Debug.Log(Time.realtimeSinceStartup - beeper.GetLastBeepTime());
+        if (Time.realtimeSinceStartup - beeper.GetLastBeepTime() > 4 )
+        {
+            ResetTextMessage("");
+        }
+    }
+
+    private void BeepTriggered()
+    {
+        awaitingUserResponse = true;
+        //ResetTextMessage();
+        //messageText.text = "";
     }
 
     void OnEnable()
@@ -37,16 +57,9 @@ public class Tutorial : MonoBehaviour
         controls.Disable();
     }
 
-
-    private void Start()
-    {
-        
-        
-    }
-
     public void StartTutorial()
     {
-        Debug.Log("start button pressed");
+        //Debug.Log("start button pressed");
         beeper.StartBeeping();
     }
 
@@ -54,19 +67,20 @@ public class Tutorial : MonoBehaviour
     {
         Beeper.BeepState beepState = beeper.beepState;
 
-        if (beepState == Beeper.BeepState.None)
+        if (beepState == Beeper.BeepState.None || !awaitingUserResponse)
         {
             return;
         }
         if (beepState == Beeper.BeepState.Low)
         {
-            PrintToConsole("Correct button was pressed. Well done.");
+            PrintMessage("Correct button was pressed. Well done.");
         }
         else
         {
-            PrintToConsole("Incorrect button. Please try again.");
+            PrintMessage("Incorrect button. You'll get it next time.");
         }
         beepState = Beeper.BeepState.None;
+        awaitingUserResponse = false;
 
     }
 
@@ -74,24 +88,41 @@ public class Tutorial : MonoBehaviour
     {
         Beeper.BeepState beepState = beeper.beepState;
 
-        if (beepState == Beeper.BeepState.None)
+        if (beepState == Beeper.BeepState.None || !awaitingUserResponse)
         {
             return;
         }
         if (beepState == Beeper.BeepState.High)
         {
-            PrintToConsole("Correct button was pressed. Well done.");
+            PrintMessage("Correct button was pressed. Well done.");
         }
         else
         {
-            PrintToConsole("Incorrect button. Please try again.");
+            PrintMessage("Incorrect button. You'll get it next time.");
         }
         beepState = Beeper.BeepState.None;
+        awaitingUserResponse = false;
 
     }
 
-    void PrintToConsole(string message)
+    void PrintMessage(string message)
     {
-        Debug.Log(message);
+        messageText.text= message;
+    }
+
+    void ResetTextMessage(string m)
+    {
+        messageText.text = m;
+    }
+
+    public void StopTutorial()
+    {
+        beeper.StopBeeping();
+    }
+
+    public void StartExperiment()
+    {
+        beeper.StopBeeping();
+        SceneManager.LoadSceneAsync("BrucesDevelopment/Scenes/VideoPlayerScene");
     }
 }
