@@ -24,6 +24,8 @@ public class ExperimentControl : MonoBehaviour
 
     private bool awaitingUserResponse = false;
 
+    private float timeToHideCursor;
+
     void Awake()
     {
         videoPlayer.loopPointReached += onLatestVideoFinished;
@@ -33,11 +35,14 @@ public class ExperimentControl : MonoBehaviour
         userInput.ExperimentControls.Quit.performed += _ => Application.Quit();
         userInput.ExperimentControls.PauseVideo.performed += _ => Pause();
         userInput.ExperimentControls.RestartVideo.performed += _ => RestartCurrentVideo();
+        userInput.ExperimentControls.ShowMouseCursor.performed += _ => ShowMouseCursor();
 
         userInput.UserResponse.LowBeep.performed += _ => LowBeepUserResponse();
         userInput.UserResponse.HighBeep.performed += _ => HighBeepUserResponse();
 
         beeper.onBeep = BeepTriggered;
+
+        timeToHideCursor = Time.realtimeSinceStartup + 3;
     }
 
     void OnEnable()
@@ -50,6 +55,22 @@ public class ExperimentControl : MonoBehaviour
     {
         userInput.ExperimentControls.Disable();
         userInput.UserResponse.Disable();
+    }
+
+    void ShowMouseCursor()
+    {
+        Cursor.visible = true;
+
+        timeToHideCursor = Time.realtimeSinceStartup + 3;
+
+    }
+
+    void Update()
+    {
+        if(Cursor.visible && Time.realtimeSinceStartup > timeToHideCursor)
+        {
+            Cursor.visible = false;
+        }
     }
 
 
