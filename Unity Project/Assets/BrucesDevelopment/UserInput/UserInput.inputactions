@@ -47,6 +47,17 @@
                 },
                 {
                     "name": "",
+                    "id": "aa3c3937-826c-4bdd-865e-bd396e5e477c",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HighBeep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ce7c67da-e5ea-48e2-9108-a642b0181d4e",
                     "path": "<XInputController>/buttonWest",
                     "interactions": "",
@@ -64,6 +75,82 @@
                     "processors": "",
                     "groups": "",
                     "action": "LowBeep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f8e4216-d6f5-4ff6-99a8-8812b9c2ae13",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowBeep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "ExperimentControls",
+            "id": "04d9e3bf-8285-4000-817b-af28e2686fb8",
+            "actions": [
+                {
+                    "name": "PauseVideo",
+                    "type": "Button",
+                    "id": "b30c1a6e-b0b6-447f-8045-c78952d6239a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RestartVideo",
+                    "type": "Button",
+                    "id": "3b9a7f8b-d9a1-4a45-9218-e3236748a9b3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "465e69a9-ef3c-4bf4-8056-c241b8d6cb07",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0e650f24-a5cd-462f-bdcf-fa08ebbc9435",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseVideo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9abb2c2-4e28-4876-848e-b9be39dba903",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RestartVideo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51ada245-6f6e-45a1-a4bb-4765b42fb297",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

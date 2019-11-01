@@ -60,6 +60,17 @@ public class UserInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""aa3c3937-826c-4bdd-865e-bd396e5e477c"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HighBeep"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ce7c67da-e5ea-48e2-9108-a642b0181d4e"",
                     ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
@@ -79,6 +90,82 @@ public class UserInput : IInputActionCollection, IDisposable
                     ""action"": ""LowBeep"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f8e4216-d6f5-4ff6-99a8-8812b9c2ae13"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LowBeep"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""ExperimentControls"",
+            ""id"": ""04d9e3bf-8285-4000-817b-af28e2686fb8"",
+            ""actions"": [
+                {
+                    ""name"": ""PauseVideo"",
+                    ""type"": ""Button"",
+                    ""id"": ""b30c1a6e-b0b6-447f-8045-c78952d6239a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RestartVideo"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b9a7f8b-d9a1-4a45-9218-e3236748a9b3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""465e69a9-ef3c-4bf4-8056-c241b8d6cb07"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0e650f24-a5cd-462f-bdcf-fa08ebbc9435"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseVideo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9abb2c2-4e28-4876-848e-b9be39dba903"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RestartVideo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51ada245-6f6e-45a1-a4bb-4765b42fb297"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -89,6 +176,11 @@ public class UserInput : IInputActionCollection, IDisposable
         m_UserResponse = asset.FindActionMap("UserResponse", throwIfNotFound: true);
         m_UserResponse_HighBeep = m_UserResponse.FindAction("HighBeep", throwIfNotFound: true);
         m_UserResponse_LowBeep = m_UserResponse.FindAction("LowBeep", throwIfNotFound: true);
+        // ExperimentControls
+        m_ExperimentControls = asset.FindActionMap("ExperimentControls", throwIfNotFound: true);
+        m_ExperimentControls_PauseVideo = m_ExperimentControls.FindAction("PauseVideo", throwIfNotFound: true);
+        m_ExperimentControls_RestartVideo = m_ExperimentControls.FindAction("RestartVideo", throwIfNotFound: true);
+        m_ExperimentControls_Quit = m_ExperimentControls.FindAction("Quit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -175,9 +267,64 @@ public class UserInput : IInputActionCollection, IDisposable
         }
     }
     public UserResponseActions @UserResponse => new UserResponseActions(this);
+
+    // ExperimentControls
+    private readonly InputActionMap m_ExperimentControls;
+    private IExperimentControlsActions m_ExperimentControlsActionsCallbackInterface;
+    private readonly InputAction m_ExperimentControls_PauseVideo;
+    private readonly InputAction m_ExperimentControls_RestartVideo;
+    private readonly InputAction m_ExperimentControls_Quit;
+    public struct ExperimentControlsActions
+    {
+        private UserInput m_Wrapper;
+        public ExperimentControlsActions(UserInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PauseVideo => m_Wrapper.m_ExperimentControls_PauseVideo;
+        public InputAction @RestartVideo => m_Wrapper.m_ExperimentControls_RestartVideo;
+        public InputAction @Quit => m_Wrapper.m_ExperimentControls_Quit;
+        public InputActionMap Get() { return m_Wrapper.m_ExperimentControls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ExperimentControlsActions set) { return set.Get(); }
+        public void SetCallbacks(IExperimentControlsActions instance)
+        {
+            if (m_Wrapper.m_ExperimentControlsActionsCallbackInterface != null)
+            {
+                PauseVideo.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
+                PauseVideo.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
+                PauseVideo.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
+                RestartVideo.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
+                RestartVideo.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
+                RestartVideo.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
+                Quit.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
+                Quit.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
+                Quit.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
+            }
+            m_Wrapper.m_ExperimentControlsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                PauseVideo.started += instance.OnPauseVideo;
+                PauseVideo.performed += instance.OnPauseVideo;
+                PauseVideo.canceled += instance.OnPauseVideo;
+                RestartVideo.started += instance.OnRestartVideo;
+                RestartVideo.performed += instance.OnRestartVideo;
+                RestartVideo.canceled += instance.OnRestartVideo;
+                Quit.started += instance.OnQuit;
+                Quit.performed += instance.OnQuit;
+                Quit.canceled += instance.OnQuit;
+            }
+        }
+    }
+    public ExperimentControlsActions @ExperimentControls => new ExperimentControlsActions(this);
     public interface IUserResponseActions
     {
         void OnHighBeep(InputAction.CallbackContext context);
         void OnLowBeep(InputAction.CallbackContext context);
+    }
+    public interface IExperimentControlsActions
+    {
+        void OnPauseVideo(InputAction.CallbackContext context);
+        void OnRestartVideo(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
 }

@@ -2,7 +2,7 @@
 
 public class AudioPlayerScript : MonoBehaviour
 {
-    enum PreviousBeep{None, Low, High};
+    enum BeepState{None, Low, High};
 
     public int timeBetweenBeepsSeconds;
     private static AudioSource lo_pitch, hi_pitch;
@@ -10,9 +10,10 @@ public class AudioPlayerScript : MonoBehaviour
 
     private UserInput userInput;
 
-    private PreviousBeep previousBeep;
+    private BeepState beepState;
 
     private float lastBeepTime = 0;
+    private bool awaitingUserResponse = false;
 
     void Awake()
     {
@@ -25,7 +26,7 @@ public class AudioPlayerScript : MonoBehaviour
         userInput.UserResponse.LowBeep.performed += _ => LowBeepUserResponse();
         userInput.UserResponse.HighBeep.performed += _ => HighBeepUserResponse();
 
-        previousBeep = PreviousBeep.None;
+        beepState = BeepState.None;
     }
 
     void OnEnable()
@@ -49,7 +50,7 @@ public class AudioPlayerScript : MonoBehaviour
     public void StartBeeping()
     {
         lastBeepTime = 0;
-        previousBeep = PreviousBeep.None;
+        beepState = BeepState.None;
 
         timeForNextBeep = Time.realtimeSinceStartup + timeBetweenBeepsSeconds;
     }
@@ -61,12 +62,17 @@ public class AudioPlayerScript : MonoBehaviour
 
     public void PlayBeep(float duration)
     {
+        if(awaitingUserResponse && beepState != BeepState.None)
+        {
+            LogResult(beepState, false, -1);
+        }
+
         if (UnityEngine.Random.value < 0.5)
         {
             lo_pitch.Play();
 
             lastBeepTime = Time.realtimeSinceStartup;
-            previousBeep = PreviousBeep.Low;
+            beepState = BeepState.Low;
 
             Invoke("StopBeep", duration);
         }
@@ -75,12 +81,15 @@ public class AudioPlayerScript : MonoBehaviour
             hi_pitch.Play();
 
             lastBeepTime = Time.realtimeSinceStartup;
-            previousBeep = PreviousBeep.High;
+            beepState = BeepState.High;
             
 
             Invoke("StopBeep", duration);
         }
+
         timeForNextBeep = Time.realtimeSinceStartup + timeBetweenBeepsSeconds;
+
+        awaitingUserResponse = true;
     }
 
     public void StopBeep()
@@ -93,43 +102,47 @@ public class AudioPlayerScript : MonoBehaviour
     {
         float responseDelay = Time.realtimeSinceStartup - lastBeepTime;
 
-        if(previousBeep == PreviousBeep.None)
+        if(beepState == BeepState.None)
         {
             return;
         }
 
-        if(previousBeep == PreviousBeep.Low)
+        if(beepState == BeepState.Low)
         {
-            LogResult(previousBeep, true, responseDelay);
+            LogResult(beepState, true, responseDelay);
         } else
         {
-            LogResult(previousBeep, false, responseDelay);
+            LogResult(beepState, false, responseDelay);
         }
 
-        previousBeep = PreviousBeep.None;
+        beepState = BeepState.None;
+
+        awaitingUserResponse = false;
     }
 
     public void HighBeepUserResponse()
     {
         float responseDelay = Time.realtimeSinceStartup - lastBeepTime;
 
-        if(previousBeep == PreviousBeep.None)
+        if(beepState == BeepState.None)
         {
             return;
         }
 
-        if(previousBeep == PreviousBeep.High)
+        if(beepState == BeepState.High)
         {
-            LogResult(previousBeep, true, responseDelay);
+            LogResult(beepState, true, responseDelay);
         } else
         {
-            LogResult(previousBeep, false, responseDelay);
+            LogResult(beepState, false, responseDelay);
         }
 
-        previousBeep = PreviousBeep.None;
+        beepState = BeepState.None;
+
+        awaitingUserResponse = false;
     }
 
-    void LogResult(PreviousBeep type, bool correct, float responseDelay)
+    void LogResult(BeepState type, bool correct, float responseDelay)
     {
         Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay);
         

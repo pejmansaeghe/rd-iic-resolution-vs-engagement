@@ -19,11 +19,29 @@ public class ExperimentControl : MonoBehaviour
     private int currentVideo = 0;
     private ExperimentConfiguration experimentConfiguration;
 
+    private UserInput userInput;
     private string[] videoURlsForExperiment;
     void Awake()
     {
         videoPlayer.loopPointReached += onLatestVideoFinished;
+
+        userInput = new UserInput();
+
+        userInput.ExperimentControls.Quit.performed += _ => Application.Quit();
+        userInput.ExperimentControls.PauseVideo.performed += _ => Pause();
+        userInput.ExperimentControls.RestartVideo.performed += _ => RestartCurrentVideo();
     }
+
+    void OnEnable()
+    {
+        userInput.ExperimentControls.Enable();
+    }
+
+    void OnDisable()
+    {
+        userInput.ExperimentControls.Disable();
+    }
+
 
     public void BeginExperiment()
     {
@@ -129,6 +147,28 @@ public class ExperimentControl : MonoBehaviour
         {
             PlayVideo(videoURlsForExperiment[currentVideo]);
         }
+    }
+
+    void Pause()
+    {
+        if(videoPlayer.isPaused)
+        {
+            videoPlayer.Play();
+            beeper.StartBeeping();
+        }
+        else
+        {
+            videoPlayer.Pause();
+            beeper.StopBeeping();
+        }
+    }
+
+    void RestartCurrentVideo()
+    {
+        videoPlayer.Stop();
+        beeper.StopBeeping();
+        videoPlayer.Play();
+        beeper.StartBeeping();
     }
 
     void DisplayMessage(string error)
