@@ -13,7 +13,7 @@ public class ExperimentControl : MonoBehaviour
     public TMP_Text messageText;
     public VideoPlayer videoPlayer;
     public GameObject canvas;
-    public AudioPlayerScript beeper;
+    public Beeper beeper;
     public float experimentStartDelay = 3f;
     private int currentExperiment=0;
     private int currentVideo = 0;
@@ -170,6 +170,7 @@ public class ExperimentControl : MonoBehaviour
         {
             videoPlayer.Pause();
             beeper.StopBeeping();
+            DataLogger.Instance.WriteToFile("Video Paused");
         }
     }
 
@@ -179,13 +180,15 @@ public class ExperimentControl : MonoBehaviour
         beeper.StopBeeping();
         videoPlayer.Play();
         beeper.StartBeeping();
+
+        DataLogger.Instance.WriteToFile("Video Restarting");
     }
 
     private void BeepTriggered()
     {
         Debug.Log("BeepTriggered");
 
-        if(awaitingUserResponse && beeper.previousBeepState != AudioPlayerScript.BeepState.None)
+        if(awaitingUserResponse && beeper.previousBeepState != Beeper.BeepState.None)
         {
             LogResult(beeper.previousBeepState, false, -1);
         }
@@ -197,14 +200,14 @@ public class ExperimentControl : MonoBehaviour
     {
         float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
 
-        AudioPlayerScript.BeepState beepState = beeper.beepState;
+        Beeper.BeepState beepState = beeper.beepState;
 
-        if(beepState == AudioPlayerScript.BeepState.None)
+        if(beepState == Beeper.BeepState.None)
         {
             return;
         }
 
-        if(beepState == AudioPlayerScript.BeepState.Low)
+        if(beepState == Beeper.BeepState.Low)
         {
             LogResult(beepState, true, responseDelay);
         } 
@@ -213,7 +216,7 @@ public class ExperimentControl : MonoBehaviour
             LogResult(beepState, false, responseDelay);
         }
 
-        beepState = AudioPlayerScript.BeepState.None;
+        beepState = Beeper.BeepState.None;
 
         awaitingUserResponse = false;
 
@@ -223,14 +226,14 @@ public class ExperimentControl : MonoBehaviour
     {
         float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
 
-        AudioPlayerScript.BeepState beepState = beeper.beepState;
+        Beeper.BeepState beepState = beeper.beepState;
 
-        if(beepState == AudioPlayerScript.BeepState.None)
+        if(beepState == Beeper.BeepState.None)
         {
             return;
         }
 
-        if(beepState == AudioPlayerScript.BeepState.High)
+        if(beepState == Beeper.BeepState.High)
         {
             LogResult(beepState, true, responseDelay);
         } 
@@ -239,14 +242,14 @@ public class ExperimentControl : MonoBehaviour
             LogResult(beepState, false, responseDelay);
         }
 
-        beepState = AudioPlayerScript.BeepState.None;
+        beepState = Beeper.BeepState.None;
 
         awaitingUserResponse = false;
 
         
     }
 
-    void LogResult(AudioPlayerScript.BeepState type, bool correct, float responseDelay)
+    void LogResult(Beeper.BeepState type, bool correct, float responseDelay)
     {
         Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay);
         

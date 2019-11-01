@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public class AudioPlayerScript : MonoBehaviour
+public class Beeper : MonoBehaviour
 {
     public enum BeepState{None, Low, High};
 
