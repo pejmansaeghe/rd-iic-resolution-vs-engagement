@@ -7,10 +7,6 @@ using TMPro;
 
 public class Tutorial : MonoBehaviour
 {
-    enum PreviousBeep { None, Low, High };
-    private PreviousBeep previousBeep;
-    private float lastBeepTime = 0;
-
     //public GameObject canvas;
     public Beeper beeper;
     TMP_Text messageText;
@@ -21,6 +17,7 @@ public class Tutorial : MonoBehaviour
 
     void Awake()
     {
+        beeper = GameObject.FindGameObjectWithTag("beeper").GetComponent<Beeper>();
         controls = new PlayerControls();
 
         controls.Player.HighBeep.performed += _ => HighBeepResponse();
@@ -43,66 +40,58 @@ public class Tutorial : MonoBehaviour
 
     private void Start()
     {
-        beeper = new Beeper();
+        
         
     }
 
     public void StartTutorial()
     {
-
+        Debug.Log("start button pressed");
         beeper.StartBeeping();
     }
 
     public void LowBeepResponse()
     {
-        float responseDelay = Time.realtimeSinceStartup - lastBeepTime;
+        Beeper.BeepState beepState = beeper.beepState;
 
-        if (previousBeep == PreviousBeep.None)
+        if (beepState == Beeper.BeepState.None)
         {
             return;
         }
-
-        if (previousBeep == PreviousBeep.Low)
+        if (beepState == Beeper.BeepState.Low)
         {
-            LogResult(previousBeep, true, responseDelay);
+            PrintToConsole("Correct button was pressed. Well done.");
         }
         else
         {
-            LogResult(previousBeep, false, responseDelay);
+            PrintToConsole("Incorrect button. Please try again.");
         }
+        beepState = Beeper.BeepState.None;
 
-        previousBeep = PreviousBeep.None;
     }
 
     public void HighBeepResponse()
     {
-        float responseDelay = Time.realtimeSinceStartup - lastBeepTime;
+        Beeper.BeepState beepState = beeper.beepState;
 
-        if (previousBeep == PreviousBeep.None)
+        if (beepState == Beeper.BeepState.None)
         {
             return;
         }
-
-        if (previousBeep == PreviousBeep.High)
+        if (beepState == Beeper.BeepState.High)
         {
-            LogResult(previousBeep, true, responseDelay);
+            PrintToConsole("Correct button was pressed. Well done.");
         }
         else
         {
-            LogResult(previousBeep, false, responseDelay);
+            PrintToConsole("Incorrect button. Please try again.");
         }
+        beepState = Beeper.BeepState.None;
 
-        previousBeep = PreviousBeep.None;
     }
 
-    //void DisplayMessage(string message)
-    //{
-    //    messageText.text = message;
-    //}
-    void LogResult(PreviousBeep type, bool correct, float responseDelay)
+    void PrintToConsole(string message)
     {
-        Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay);
-        //messageText.text = correct.ToString();
-
+        Debug.Log(message);
     }
 }
