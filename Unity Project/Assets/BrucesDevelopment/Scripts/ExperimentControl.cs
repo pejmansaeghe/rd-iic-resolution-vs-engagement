@@ -223,6 +223,7 @@ public class ExperimentControl : MonoBehaviour
 
         Beeper.BeepState beepState = beeper.beepState;
 
+
         if(beepState == Beeper.BeepState.None || awaitingUserResponse == false)
         {
             return;
