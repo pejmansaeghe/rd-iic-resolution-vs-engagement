@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Hi_Pitch
   - Lo_Pitch
+  - tutorial_button
+  - tutorial_message
   layers:
   - Default
   - TransparentFX

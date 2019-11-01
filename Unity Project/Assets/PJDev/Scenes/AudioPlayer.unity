@@ -294,77 +294,72 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &3005768328432244024
+--- !u!1001 &5382606759024850447
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3005768329801167271, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 6984920787817764157, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_Name
-      value: AudioPlayer
+      value: Beeper
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167256, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
+    - target: {fileID: 3988071659581723485, guid: 7bf496329c3193640a7f77829cd35f6b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3005768329801167257, guid: 17bcc8ac1523d3c4b973b4425ae32b8b,
-        type: 3}
-      propertyPath: timeBetweenBeepsSeconds
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 17bcc8ac1523d3c4b973b4425ae32b8b, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 7bf496329c3193640a7f77829cd35f6b, type: 3}
