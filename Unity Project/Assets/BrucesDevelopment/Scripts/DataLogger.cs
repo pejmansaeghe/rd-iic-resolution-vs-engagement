@@ -69,7 +69,7 @@ public class DataLogger : MonoBehaviour
     public bool WriteToFile(string message)
     {
         if(currentFile == null)
-        {
+        {            
             Debug.Log("DataLogger error. null file in WriteToFile");
             return false;
         }
@@ -81,9 +81,10 @@ public class DataLogger : MonoBehaviour
 
         try
         {
-            UnicodeEncoding uniencoding = new UnicodeEncoding();
+            //UnicodeEncoding uniencoding = new UnicodeEncoding();
+            UTF8Encoding utf8 = new UTF8Encoding();
 
-            byte[] result = uniencoding.GetBytes(message);
+            byte[] result = utf8.GetBytes(message);
 
             currentFile.Write(result, 0, result.Length);
         }

@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ExperimentControl : MonoBehaviour
@@ -15,7 +16,7 @@ public class ExperimentControl : MonoBehaviour
     public GameObject canvas;
     public Beeper beeper;
     public float experimentStartDelay = 3f;
-    private int currentExperiment=0;
+    private int currentExperiment = 1;
     private int currentVideo = 0;
     private ExperimentConfiguration experimentConfiguration;
 
@@ -211,7 +212,7 @@ public class ExperimentControl : MonoBehaviour
 
         if(awaitingUserResponse && beeper.previousBeepState != Beeper.BeepState.None)
         {
-            LogResult(beeper.previousBeepState, false, -1);
+            LogResult(beeper.previousBeepState, false, -1, videoPlayer.time);
         }
 
         awaitingUserResponse = true;
@@ -231,11 +232,11 @@ public class ExperimentControl : MonoBehaviour
 
         if(beepState == Beeper.BeepState.Low)
         {
-            LogResult(beepState, true, responseDelay);
+            LogResult(beepState, true, responseDelay, videoPlayer.time);
         } 
         else
         {
-            LogResult(beepState, false, responseDelay);
+            LogResult(beepState, false, responseDelay, videoPlayer.time);
         }
 
         beepState = Beeper.BeepState.None;
@@ -257,11 +258,11 @@ public class ExperimentControl : MonoBehaviour
 
         if(beepState == Beeper.BeepState.High)
         {
-            LogResult(beepState, true, responseDelay);
+            LogResult(beepState, true, responseDelay, videoPlayer.time);
         } 
         else
         {
-            LogResult(beepState, false, responseDelay);
+            LogResult(beepState, false, responseDelay, videoPlayer.time);
         }
 
         beepState = Beeper.BeepState.None;
@@ -271,11 +272,11 @@ public class ExperimentControl : MonoBehaviour
         
     }
 
-    void LogResult(Beeper.BeepState type, bool correct, float responseDelay)
+    void LogResult(Beeper.BeepState type, bool correct, float responseDelay, double videoTime)
     {
-        Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay);
+        Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay + ", " + videoTime);
         
-        DataLogger.Instance.WriteToFile(type.ToString() + ", " + correct + ", " + responseDelay);
+        DataLogger.Instance.WriteToFile(type.ToString() + ", " + correct + ", " + responseDelay + ", " + videoTime);
     }
 
 
@@ -287,7 +288,13 @@ public class ExperimentControl : MonoBehaviour
 
     void EndExperiment()
     {
+        DataLogger.Instance.CloseLogFile();
         DisplayMessage("");
+    }
+
+    public void GoToTutorial()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }
