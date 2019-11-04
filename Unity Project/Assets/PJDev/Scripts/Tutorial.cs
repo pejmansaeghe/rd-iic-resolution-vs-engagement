@@ -23,6 +23,7 @@ public class Tutorial : MonoBehaviour
 
         userInput.UserResponse.HighBeep.performed += _ => HighBeepResponse();
         userInput.UserResponse.LowBeep.performed += _ => LowBeepResponse();
+        userInput.ExperimentControls.Quit.performed += _ => Application.Quit();
 
         
         beeper.onBeep = BeepTriggered;
