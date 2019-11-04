@@ -132,6 +132,6 @@ public class Tutorial : MonoBehaviour
     public void StartExperiment()
     {
         beeper.StopBeeping();
-        SceneManager.LoadSceneAsync("BrucesDevelopment/Scenes/VideoPlayerScene");
+        SceneManager.LoadSceneAsync(1);//"BrucesDevelopment/Scenes/VideoPlayerScene");
     }
 }

@@ -663,11 +663,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 8506240036014964383, guid: 0ba4df42d1fae774dadbe392a932f945,
-        type: 3}
-      propertyPath: m_Text
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8506240036718573650, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -774,6 +769,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8506240035355126754, guid: 0ba4df42d1fae774dadbe392a932f945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 493049769}
+    - target: {fileID: 6903526039265657862, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

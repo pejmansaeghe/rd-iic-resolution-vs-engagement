@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ExperimentControl : MonoBehaviour
@@ -289,6 +290,11 @@ public class ExperimentControl : MonoBehaviour
     {
         DataLogger.Instance.CloseLogFile();
         DisplayMessage("");
+    }
+
+    public void GoToTutorial()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }
