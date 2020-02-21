@@ -31,7 +31,7 @@ public class Beeper : MonoBehaviour
     {
         if (Time.realtimeSinceStartup > timeForNextBeep)
         {
-            PlayBeep(0.01f);
+            PlayBeep(0.004f);
         }
     }
 
