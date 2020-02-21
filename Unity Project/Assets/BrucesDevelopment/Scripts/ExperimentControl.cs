@@ -105,14 +105,14 @@ public class ExperimentControl : MonoBehaviour
 
     bool InitialiseLogFile()
     {
-        if(!DataLogger.Instance.SetFileName("Experiment_" + currentExperiment + ".txt"))
+        if(!DataLogger.Instance.SetFileName("Participant_" + currentExperiment + ".txt"))
         {
             DisplayMessage("Problem opening experiment save file");
             return false;
         }
         else
         {
-            DataLogger.Instance.WriteToFile("Experiment: " + currentExperiment + " " + DateTime.Now);
+            DataLogger.Instance.WriteToFile("Participant: " + currentExperiment + " " + DateTime.Now);
             int videoNumber = 0;
             foreach(string url in videoURlsForExperiment)
             {
@@ -178,6 +178,7 @@ public class ExperimentControl : MonoBehaviour
         else
         {
             PlayVideo(videoURlsForExperiment[currentVideo]);
+            Pause();
         }
     }
 
