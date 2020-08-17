@@ -78,11 +78,11 @@ public class Tutorial : MonoBehaviour
         }
         if (beepState == Beeper.BeepState.Low)
         {
-            DisplayMessage("Correct button was pressed. Well done.");
+            DisplayMessage("Correct.");
         }
         else
         {
-            DisplayMessage("Incorrect button. You'll get it next time.");
+            DisplayMessage("Incorrect.");
         }
         beepState = Beeper.BeepState.None;
         awaitingUserResponse = false;
@@ -101,11 +101,11 @@ public class Tutorial : MonoBehaviour
         }
         if (beepState == Beeper.BeepState.High)
         {
-            DisplayMessage("Correct button was pressed. Well done.");
+            DisplayMessage("Correct.");
         }
         else
         {
-            DisplayMessage("Incorrect button. You'll get it next time.");
+            DisplayMessage("Incorrect.");
         }
         beepState = Beeper.BeepState.None;
         awaitingUserResponse = false;
