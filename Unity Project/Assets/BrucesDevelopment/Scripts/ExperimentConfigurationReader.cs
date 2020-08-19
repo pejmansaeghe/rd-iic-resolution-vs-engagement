@@ -22,15 +22,17 @@ public class ExperimentConfigurationReader
         {
             foreach(ExperimentConfiguration exc in experiment.experimentConfigurations)
             {
-                if(exc.experimentNumber == number)
+                if(exc.experimentNumber == 1)
                 {
                     return exc;
                 }
             }
 
             return null;
+
         }
     }
+
 
     private bool ReadConfigFile(string configurationFilename)
     {
