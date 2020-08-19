@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/PJDev/Scenes/Tutorial.unity
     guid: 34797346d90a18e4dadaafa78cbfa763
   - enabled: 1
-    path: Assets/BrucesDevelopment/Scenes/VideoPlayerScene.unity
-    guid: 75cb588397357974484c606602cf5ea3
+    path: Assets/PJDev/Scenes/PlayVideo1.unity
+    guid: f13f196251452fc469e9bcc57520ec58
+  - enabled: 1
+    path: Assets/PJDev/Scenes/PlayVideo2-5.unity
+    guid: 8d3a8f4e517f64540be80a6329758b68
+  - enabled: 1
+    path: Assets/PJDev/Scenes/FinalScene.unity
+    guid: 50b3174eb2ade294982094a8697e90f9
   m_configObjects: {}
