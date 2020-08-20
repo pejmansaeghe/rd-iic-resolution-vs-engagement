@@ -26,6 +26,7 @@ public class DataLogger : MonoBehaviour
 
     void OnApplicationQuit()
     {
+        DataLogger.Instance.WriteToFile("Application quit.");
         CloseLogFile();
     }
 
@@ -42,7 +43,8 @@ public class DataLogger : MonoBehaviour
     {
         CloseLogFile();
 
-        string filePath = Path.Combine(Application.persistentDataPath, fileName);
+        // string filePath = Path.Combine(Application.persistentDataPath, fileName);
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
 
         Debug.Log(filePath);
 
