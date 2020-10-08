@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class PlayerControls : IInputActionCollection, IDisposable
+public class @PlayerControls : IInputActionCollection, IDisposable
 {
-    private InputActionAsset asset;
-    public PlayerControls()
+    public InputActionAsset asset { get; }
+    public @PlayerControls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerControls"",
@@ -195,8 +195,8 @@ public class PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_AnyKeyPressed;
     public struct PlayerActions
     {
-        private PlayerControls m_Wrapper;
-        public PlayerActions(PlayerControls wrapper) { m_Wrapper = wrapper; }
+        private @PlayerControls m_Wrapper;
+        public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @HighBeep => m_Wrapper.m_Player_HighBeep;
         public InputAction @LowBeep => m_Wrapper.m_Player_LowBeep;
         public InputAction @StartTutorial => m_Wrapper.m_Player_StartTutorial;
@@ -211,40 +211,40 @@ public class PlayerControls : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                HighBeep.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHighBeep;
-                HighBeep.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHighBeep;
-                HighBeep.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHighBeep;
-                LowBeep.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowBeep;
-                LowBeep.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowBeep;
-                LowBeep.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowBeep;
-                StartTutorial.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartTutorial;
-                StartTutorial.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartTutorial;
-                StartTutorial.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartTutorial;
-                QuitTutorial.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuitTutorial;
-                QuitTutorial.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuitTutorial;
-                QuitTutorial.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuitTutorial;
-                AnyKeyPressed.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKeyPressed;
-                AnyKeyPressed.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKeyPressed;
-                AnyKeyPressed.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKeyPressed;
+                @HighBeep.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHighBeep;
+                @HighBeep.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHighBeep;
+                @HighBeep.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHighBeep;
+                @LowBeep.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowBeep;
+                @LowBeep.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowBeep;
+                @LowBeep.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLowBeep;
+                @StartTutorial.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartTutorial;
+                @StartTutorial.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartTutorial;
+                @StartTutorial.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartTutorial;
+                @QuitTutorial.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuitTutorial;
+                @QuitTutorial.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuitTutorial;
+                @QuitTutorial.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuitTutorial;
+                @AnyKeyPressed.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKeyPressed;
+                @AnyKeyPressed.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKeyPressed;
+                @AnyKeyPressed.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKeyPressed;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                HighBeep.started += instance.OnHighBeep;
-                HighBeep.performed += instance.OnHighBeep;
-                HighBeep.canceled += instance.OnHighBeep;
-                LowBeep.started += instance.OnLowBeep;
-                LowBeep.performed += instance.OnLowBeep;
-                LowBeep.canceled += instance.OnLowBeep;
-                StartTutorial.started += instance.OnStartTutorial;
-                StartTutorial.performed += instance.OnStartTutorial;
-                StartTutorial.canceled += instance.OnStartTutorial;
-                QuitTutorial.started += instance.OnQuitTutorial;
-                QuitTutorial.performed += instance.OnQuitTutorial;
-                QuitTutorial.canceled += instance.OnQuitTutorial;
-                AnyKeyPressed.started += instance.OnAnyKeyPressed;
-                AnyKeyPressed.performed += instance.OnAnyKeyPressed;
-                AnyKeyPressed.canceled += instance.OnAnyKeyPressed;
+                @HighBeep.started += instance.OnHighBeep;
+                @HighBeep.performed += instance.OnHighBeep;
+                @HighBeep.canceled += instance.OnHighBeep;
+                @LowBeep.started += instance.OnLowBeep;
+                @LowBeep.performed += instance.OnLowBeep;
+                @LowBeep.canceled += instance.OnLowBeep;
+                @StartTutorial.started += instance.OnStartTutorial;
+                @StartTutorial.performed += instance.OnStartTutorial;
+                @StartTutorial.canceled += instance.OnStartTutorial;
+                @QuitTutorial.started += instance.OnQuitTutorial;
+                @QuitTutorial.performed += instance.OnQuitTutorial;
+                @QuitTutorial.canceled += instance.OnQuitTutorial;
+                @AnyKeyPressed.started += instance.OnAnyKeyPressed;
+                @AnyKeyPressed.performed += instance.OnAnyKeyPressed;
+                @AnyKeyPressed.canceled += instance.OnAnyKeyPressed;
             }
         }
     }
