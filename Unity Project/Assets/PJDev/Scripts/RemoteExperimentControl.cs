@@ -15,12 +15,13 @@ public class RemoteExperimentControl : MonoBehaviour
     public GameObject canvas;
     public Beeper beeper;
     public float experimentStartDelay = 3f;
-    private static int currentVideo = 1;
+    private static int currentVideo = 0;
     private UserInput userInput;
     private string videoPath;
     private string[] videoNames = {"video_1.mp4", "video_2.mp4", "video_3.mp4", "video_4.mp4", "video_5.mp4"};
     private bool awaitingUserResponse = false;
     private float timeToHideCursor;
+    public TMP_InputField participantNumber;
 
     void Awake()
     {
@@ -82,8 +83,9 @@ public class RemoteExperimentControl : MonoBehaviour
                 return;
             }
         }
-        //video files exist and log files was successfully initialised, now we can start coroutine
-        // StartCoroutine(StartVideoSequenceAfterDelay());
+        //video files exist and log files was successfully initialised, now we can start the experiment
+        //set the video index to 1 at the beginning
+        currentVideo = 1;
         PlayNextVideo();
     }
 
@@ -96,28 +98,20 @@ public class RemoteExperimentControl : MonoBehaviour
         }
         else
         {
-            DataLogger.Instance.WriteToFile("Date and Time:" + DateTime.Now);
+            DataLogger.Instance.WriteToFile("Partcipant number: " + participantNumber.text);
+            DataLogger.Instance.WriteToFile("Date and Time: " + DateTime.Now);
         }
         return true;
     }
 
-    // IEnumerator StartVideoSequenceAfterDelay()
-    // {        
-        // DisplayMessage("Video will begin shortly.");
-
-        // yield return new WaitForSecondsRealtime(experimentStartDelay);
-
-        // PlayNextVideo();
-        // StartVideoSequence();
-    // }
-
     public void PlayNextVideo()
     {
-        // currentVideo = 1;
-        Debug.Log("video number: " + currentVideo);
         string videoName = "video_" + currentVideo + ".mp4";
         string url = Path.Combine(Directory.GetCurrentDirectory(), videoName);
-        
+
+        Debug.Log("Playing: " + url);
+        DataLogger.Instance.WriteToFile("Playing: " + videoName);
+
         PlayVideo(url);       
     }
 
@@ -129,8 +123,8 @@ public class RemoteExperimentControl : MonoBehaviour
             return;
         }
 
-        DataLogger.Instance.WriteToFile("Playing: " + url);
-        Debug.Log("Playing: " + url);
+        // DataLogger.Instance.WriteToFile("Playing: " + url);
+        // Debug.Log("Playing: " + url);
 
         canvas.SetActive(false);
 
@@ -154,8 +148,6 @@ public class RemoteExperimentControl : MonoBehaviour
         {
             Debug.Log("Next video in line is: " + "video_" + currentVideo + ".mp4");
             SceneManager.LoadScene(2);
-            // canvas.SetActive(true);
-            // DisplayMessage("");
         }
     }
 
