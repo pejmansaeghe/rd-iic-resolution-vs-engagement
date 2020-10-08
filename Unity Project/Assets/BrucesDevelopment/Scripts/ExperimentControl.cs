@@ -68,7 +68,7 @@ public class ExperimentControl : MonoBehaviour
 
     void Update()
     {
-        if(Cursor.visible && Time.realtimeSinceStartup > timeToHideCursor)
+        if (Cursor.visible && Time.realtimeSinceStartup > timeToHideCursor)
         {
             Cursor.visible = false;
         }
@@ -77,26 +77,26 @@ public class ExperimentControl : MonoBehaviour
 
     public void BeginExperiment()
     {
-        if(!int.TryParse(experimentNumberInput.text, out currentExperiment))
+        if (!int.TryParse(experimentNumberInput.text, out currentExperiment))
         {
             DisplayMessage("Number input error");
             return;
         }
 
-        
+
         ExperimentConfigurationReader ecr = new ExperimentConfigurationReader();
         experimentConfiguration = ecr.GetExperimentConfiguration(currentExperiment);
-        
+
         videoURlsForExperiment = experimentConfiguration.videoUrls;
 
         Debug.Log(videoURlsForExperiment.Length);
 
-        if(!InitialiseLogFile())
+        if (!InitialiseLogFile())
         {
             return;
         }
 
-        if(videoURlsForExperiment != null &&  videoURlsForExperiment.Length > 0 )
+        if (videoURlsForExperiment != null && videoURlsForExperiment.Length > 0)
         {
             StartCoroutine(StartVideoSequenceAfterDelay());
         }
@@ -105,7 +105,7 @@ public class ExperimentControl : MonoBehaviour
 
     bool InitialiseLogFile()
     {
-        if(!DataLogger.Instance.SetFileName("Participant_" + currentExperiment + ".txt"))
+        if (!DataLogger.Instance.SetFileName("Participant_" + currentExperiment + ".txt"))
         {
             DisplayMessage("Problem opening experiment save file");
             return false;
@@ -114,11 +114,11 @@ public class ExperimentControl : MonoBehaviour
         {
             DataLogger.Instance.WriteToFile("Participant: " + currentExperiment + " " + DateTime.Now);
             int videoNumber = 0;
-            foreach(string url in videoURlsForExperiment)
+            foreach (string url in videoURlsForExperiment)
             {
                 DataLogger.Instance.WriteToFile(videoNumber.ToString() + " " + url);
 
-                videoNumber+=1;
+                videoNumber += 1;
             }
         }
 
@@ -126,7 +126,7 @@ public class ExperimentControl : MonoBehaviour
     }
 
     IEnumerator StartVideoSequenceAfterDelay()
-    {        
+    {
         DisplayMessage("The experiment will begin shortly.");
 
         yield return new WaitForSecondsRealtime(experimentStartDelay);
@@ -139,13 +139,13 @@ public class ExperimentControl : MonoBehaviour
         currentVideo = 0;
 
         string url = videoURlsForExperiment[currentVideo];
-        
-        PlayVideo(url);       
+
+        PlayVideo(url);
     }
 
     void PlayVideo(string url)
     {
-        if(!File.Exists(url))
+        if (!File.Exists(url))
         {
             DisplayMessage("File not found: " + url);
             return;
@@ -170,8 +170,8 @@ public class ExperimentControl : MonoBehaviour
 
         currentVideo += 1;
 
-        Debug.Log(currentVideo + " " + videoURlsForExperiment.Length );
-        if(currentVideo >= videoURlsForExperiment.Length)
+        Debug.Log(currentVideo + " " + videoURlsForExperiment.Length);
+        if (currentVideo >= videoURlsForExperiment.Length)
         {
             EndExperiment();
         }
@@ -184,7 +184,7 @@ public class ExperimentControl : MonoBehaviour
 
     void Pause()
     {
-        if(videoPlayer.isPaused)
+        if (videoPlayer.isPaused)
         {
             videoPlayer.Play();
             beeper.StartBeeping();
@@ -211,7 +211,7 @@ public class ExperimentControl : MonoBehaviour
     {
         Debug.Log("BeepTriggered");
 
-        if(awaitingUserResponse && beeper.previousBeepState != Beeper.BeepState.None)
+        if (awaitingUserResponse && beeper.previousBeepState != Beeper.BeepState.None)
         {
             LogResult(beeper.previousBeepState, false, -1, videoPlayer.time);
         }
@@ -221,20 +221,20 @@ public class ExperimentControl : MonoBehaviour
 
     public void LowBeepUserResponse()
     {
-        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
+        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepRealTime();
 
         Beeper.BeepState beepState = beeper.beepState;
 
 
-        if(beepState == Beeper.BeepState.None || awaitingUserResponse == false)
+        if (beepState == Beeper.BeepState.None || awaitingUserResponse == false)
         {
             return;
         }
 
-        if(beepState == Beeper.BeepState.Low)
+        if (beepState == Beeper.BeepState.Low)
         {
             LogResult(beepState, true, responseDelay, videoPlayer.time);
-        } 
+        }
         else
         {
             LogResult(beepState, false, responseDelay, videoPlayer.time);
@@ -248,19 +248,19 @@ public class ExperimentControl : MonoBehaviour
 
     public void HighBeepUserResponse()
     {
-        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
+        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepRealTime();
 
         Beeper.BeepState beepState = beeper.beepState;
 
-        if(beepState == Beeper.BeepState.None || awaitingUserResponse == false)
+        if (beepState == Beeper.BeepState.None || awaitingUserResponse == false)
         {
             return;
         }
 
-        if(beepState == Beeper.BeepState.High)
+        if (beepState == Beeper.BeepState.High)
         {
             LogResult(beepState, true, responseDelay, videoPlayer.time);
-        } 
+        }
         else
         {
             LogResult(beepState, false, responseDelay, videoPlayer.time);
@@ -270,13 +270,13 @@ public class ExperimentControl : MonoBehaviour
 
         awaitingUserResponse = false;
 
-        
+
     }
 
     void LogResult(Beeper.BeepState type, bool correct, float responseDelay, double videoTime)
     {
         Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay + ", " + videoTime);
-        
+
         DataLogger.Instance.WriteToFile(type.ToString() + ", " + correct + ", " + responseDelay + ", " + videoTime);
     }
 
