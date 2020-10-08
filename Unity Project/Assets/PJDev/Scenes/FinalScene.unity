@@ -679,27 +679,29 @@ PrefabInstance:
     - target: {fileID: 8506240036180204837, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
       propertyPath: m_text
-      value: Thanks for watching.
+      value: 'Thanks for watching.
+
+        Please let the moderator know the video is finished.'
       objectReference: {fileID: 0}
     - target: {fileID: 8506240036180204837, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
       propertyPath: m_fontSize
-      value: 72
+      value: 66.8
       objectReference: {fileID: 0}
     - target: {fileID: 8506240036180204837, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 20
+      value: 73
       objectReference: {fileID: 0}
     - target: {fileID: 8506240036180204837, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 3
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8506240036180204837, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8506240036180204837, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
@@ -709,7 +711,7 @@ PrefabInstance:
     - target: {fileID: 8506240036180204837, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 2
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8506240036718573650, guid: 0ba4df42d1fae774dadbe392a932f945,
         type: 3}

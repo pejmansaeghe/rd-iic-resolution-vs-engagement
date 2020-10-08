@@ -110,7 +110,7 @@ public class RemoteExperimentControl : MonoBehaviour
         string url = Path.Combine(Directory.GetCurrentDirectory(), videoName);
 
         Debug.Log("Playing: " + url);
-        DataLogger.Instance.WriteToFile("Playing: " + url);
+        DataLogger.Instance.WriteToFile("Playing: " + videoName);
 
         PlayVideo(url);       
     }

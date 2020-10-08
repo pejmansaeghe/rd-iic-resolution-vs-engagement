@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class UserInput : IInputActionCollection, IDisposable
+public class @UserInput : IInputActionCollection, IDisposable
 {
-    private InputActionAsset asset;
-    public UserInput()
+    public InputActionAsset asset { get; }
+    public @UserInput()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""UserInput"",
@@ -265,8 +265,8 @@ public class UserInput : IInputActionCollection, IDisposable
     private readonly InputAction m_UserResponse_LowBeep;
     public struct UserResponseActions
     {
-        private UserInput m_Wrapper;
-        public UserResponseActions(UserInput wrapper) { m_Wrapper = wrapper; }
+        private @UserInput m_Wrapper;
+        public UserResponseActions(@UserInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @HighBeep => m_Wrapper.m_UserResponse_HighBeep;
         public InputAction @LowBeep => m_Wrapper.m_UserResponse_LowBeep;
         public InputActionMap Get() { return m_Wrapper.m_UserResponse; }
@@ -278,22 +278,22 @@ public class UserInput : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_UserResponseActionsCallbackInterface != null)
             {
-                HighBeep.started -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnHighBeep;
-                HighBeep.performed -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnHighBeep;
-                HighBeep.canceled -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnHighBeep;
-                LowBeep.started -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnLowBeep;
-                LowBeep.performed -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnLowBeep;
-                LowBeep.canceled -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnLowBeep;
+                @HighBeep.started -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnHighBeep;
+                @HighBeep.performed -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnHighBeep;
+                @HighBeep.canceled -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnHighBeep;
+                @LowBeep.started -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnLowBeep;
+                @LowBeep.performed -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnLowBeep;
+                @LowBeep.canceled -= m_Wrapper.m_UserResponseActionsCallbackInterface.OnLowBeep;
             }
             m_Wrapper.m_UserResponseActionsCallbackInterface = instance;
             if (instance != null)
             {
-                HighBeep.started += instance.OnHighBeep;
-                HighBeep.performed += instance.OnHighBeep;
-                HighBeep.canceled += instance.OnHighBeep;
-                LowBeep.started += instance.OnLowBeep;
-                LowBeep.performed += instance.OnLowBeep;
-                LowBeep.canceled += instance.OnLowBeep;
+                @HighBeep.started += instance.OnHighBeep;
+                @HighBeep.performed += instance.OnHighBeep;
+                @HighBeep.canceled += instance.OnHighBeep;
+                @LowBeep.started += instance.OnLowBeep;
+                @LowBeep.performed += instance.OnLowBeep;
+                @LowBeep.canceled += instance.OnLowBeep;
             }
         }
     }
@@ -308,8 +308,8 @@ public class UserInput : IInputActionCollection, IDisposable
     private readonly InputAction m_ExperimentControls_ShowMouseCursor;
     public struct ExperimentControlsActions
     {
-        private UserInput m_Wrapper;
-        public ExperimentControlsActions(UserInput wrapper) { m_Wrapper = wrapper; }
+        private @UserInput m_Wrapper;
+        public ExperimentControlsActions(@UserInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @PauseVideo => m_Wrapper.m_ExperimentControls_PauseVideo;
         public InputAction @RestartVideo => m_Wrapper.m_ExperimentControls_RestartVideo;
         public InputAction @Quit => m_Wrapper.m_ExperimentControls_Quit;
@@ -323,34 +323,34 @@ public class UserInput : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_ExperimentControlsActionsCallbackInterface != null)
             {
-                PauseVideo.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
-                PauseVideo.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
-                PauseVideo.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
-                RestartVideo.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
-                RestartVideo.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
-                RestartVideo.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
-                Quit.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
-                Quit.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
-                Quit.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
-                ShowMouseCursor.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
-                ShowMouseCursor.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
-                ShowMouseCursor.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
+                @PauseVideo.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
+                @PauseVideo.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
+                @PauseVideo.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnPauseVideo;
+                @RestartVideo.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
+                @RestartVideo.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
+                @RestartVideo.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnRestartVideo;
+                @Quit.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
+                @Quit.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
+                @Quit.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnQuit;
+                @ShowMouseCursor.started -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
+                @ShowMouseCursor.performed -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
+                @ShowMouseCursor.canceled -= m_Wrapper.m_ExperimentControlsActionsCallbackInterface.OnShowMouseCursor;
             }
             m_Wrapper.m_ExperimentControlsActionsCallbackInterface = instance;
             if (instance != null)
             {
-                PauseVideo.started += instance.OnPauseVideo;
-                PauseVideo.performed += instance.OnPauseVideo;
-                PauseVideo.canceled += instance.OnPauseVideo;
-                RestartVideo.started += instance.OnRestartVideo;
-                RestartVideo.performed += instance.OnRestartVideo;
-                RestartVideo.canceled += instance.OnRestartVideo;
-                Quit.started += instance.OnQuit;
-                Quit.performed += instance.OnQuit;
-                Quit.canceled += instance.OnQuit;
-                ShowMouseCursor.started += instance.OnShowMouseCursor;
-                ShowMouseCursor.performed += instance.OnShowMouseCursor;
-                ShowMouseCursor.canceled += instance.OnShowMouseCursor;
+                @PauseVideo.started += instance.OnPauseVideo;
+                @PauseVideo.performed += instance.OnPauseVideo;
+                @PauseVideo.canceled += instance.OnPauseVideo;
+                @RestartVideo.started += instance.OnRestartVideo;
+                @RestartVideo.performed += instance.OnRestartVideo;
+                @RestartVideo.canceled += instance.OnRestartVideo;
+                @Quit.started += instance.OnQuit;
+                @Quit.performed += instance.OnQuit;
+                @Quit.canceled += instance.OnQuit;
+                @ShowMouseCursor.started += instance.OnShowMouseCursor;
+                @ShowMouseCursor.performed += instance.OnShowMouseCursor;
+                @ShowMouseCursor.canceled += instance.OnShowMouseCursor;
             }
         }
     }
