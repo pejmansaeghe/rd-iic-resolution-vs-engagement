@@ -21,7 +21,8 @@ public class Beeper : MonoBehaviour
     private double lastBeepVideoTime = 0;
 
     void Awake()
-    {
+    {   
+        Debug.Log(string.Format("Fixed Delta Time: {0}", Time.fixedDeltaTime));         
         lo_pitch = GameObject.FindGameObjectWithTag(tag: "Lo_Pitch").GetComponent<AudioSource>();
         hi_pitch = GameObject.FindGameObjectWithTag(tag: "Hi_Pitch").GetComponent<AudioSource>();
         videoTimeForNextBeep = Mathf.Infinity;
@@ -33,17 +34,25 @@ public class Beeper : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (videoPlayer.time >= videoTimeForNextBeep)
+        if (videoPlayer != null)
         {
-            Debug.Log("beep at: " + videoPlayer.time);
+            if (videoPlayer.time >= videoTimeForNextBeep)
+            {
+                Debug.Log("beep at: " + videoPlayer.time);
 
-            PlayBeep(0.004f);
+                PlayBeep(0.004f);
+            }
+        }
+        else
+        {
+            
         }
     }
 
     public void StartBeeping()
     {
         lastBeepTime = 0;
+        lastBeepVideoTime = 0 ; 
         beepState = BeepState.None;
 
         videoTimeForNextBeep = timeBetweenBeepsSeconds;
@@ -56,7 +65,6 @@ public class Beeper : MonoBehaviour
 
     public void PlayBeep(float duration)
     {
-
         previousBeepState = beepState;
 
         if (UnityEngine.Random.value < 0.5)
@@ -77,8 +85,12 @@ public class Beeper : MonoBehaviour
         }
 
         lastBeepTime = Time.realtimeSinceStartup;
-        lastBeepVideoTime = videoPlayer.time;
 
+        if (videoPlayer != null)
+        {
+            lastBeepVideoTime = videoPlayer.time;
+        }
+        
 
         videoTimeForNextBeep += timeBetweenBeepsSeconds;
 

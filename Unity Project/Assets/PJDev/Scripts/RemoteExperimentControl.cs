@@ -178,12 +178,16 @@ public class RemoteExperimentControl : MonoBehaviour
     }
 
     private void BeepTriggered()
+    // what is this?
     {
         Debug.Log("BeepTriggered");
 
         if (awaitingUserResponse && beeper.previousBeepState != Beeper.BeepState.None)
         {
-            LogResult(beeper.previousBeepState, false, beeper.GetLastBeepVideoTime(), videoPlayer.time, -1);
+            //mistake: here videoPlayer.time logs the time of the beep that was played after the one that was missed.
+            //e.g. if the first beep is missed the value will be 30, instead of 15. this is kept for backward compatibility and ease of analysis
+            //since 11 participants have already used the code this way.
+            LogResult(beeper.previousBeepState, false, -1, videoPlayer.time);
         }
 
         awaitingUserResponse = true;
@@ -203,11 +207,11 @@ public class RemoteExperimentControl : MonoBehaviour
 
         if (beepState == Beeper.BeepState.Low)
         {
-            LogResult(beepState, true, beeper.GetLastBeepVideoTime(), videoPlayer.time, responseDelay);
+            LogResult(beepState, true, responseDelay, videoPlayer.time);
         }
         else
         {
-            LogResult(beepState, false, beeper.GetLastBeepVideoTime(), videoPlayer.time, responseDelay);
+            LogResult(beepState, false, responseDelay, videoPlayer.time);
         }
 
         beepState = Beeper.BeepState.None;
@@ -229,11 +233,11 @@ public class RemoteExperimentControl : MonoBehaviour
 
         if (beepState == Beeper.BeepState.High)
         {
-            LogResult(beepState, true, beeper.GetLastBeepVideoTime(), videoPlayer.time, responseDelay);
+            LogResult(beepState, true, responseDelay, videoPlayer.time);
         }
         else
         {
-            LogResult(beepState, false, beeper.GetLastBeepVideoTime(), videoPlayer.time, responseDelay);
+            LogResult(beepState, false, responseDelay, videoPlayer.time);
         }
 
         beepState = Beeper.BeepState.None;
@@ -243,12 +247,11 @@ public class RemoteExperimentControl : MonoBehaviour
 
     }
 
-    void LogResult(Beeper.BeepState type, bool correct, double videoBeepTime, double currentVideoTime, float responseDelay)
+    void LogResult(Beeper.BeepState type, bool correctness, float responseDelay, double videoTime)
     {
-        String logMessage = type.ToString() + ", " + correct + ", " + videoBeepTime + ", " + currentVideoTime + ", " + responseDelay;
+        Debug.Log(type.ToString() + ", " + correctness + ", " + responseDelay + ", " + videoTime);
 
-        Debug.Log(logMessage);
-        DataLogger.Instance.WriteToFile(logMessage);
+        DataLogger.Instance.WriteToFile(type.ToString() + ", " + correctness + ", " + responseDelay + ", " + videoTime);
     }
 
 
