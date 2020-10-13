@@ -68,7 +68,7 @@ public class Tutorial : MonoBehaviour
     {
         while (tutorialActive)
         {
-            yield return new WaitForSecondsRealtime(7f);
+            yield return new WaitForSecondsRealtime(15f);
             if (tutorialActive)
             {
                 beeper.PlayBeep(0.004f);    
