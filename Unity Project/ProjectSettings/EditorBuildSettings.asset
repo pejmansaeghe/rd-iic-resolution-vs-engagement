@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/PJDev/Scenes/Tutorial.unity
     guid: 34797346d90a18e4dadaafa78cbfa763
   - enabled: 1

@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class Tutorial : MonoBehaviour
 {
+    private bool tutorialActive = false;
     //public GameObject canvas;
     public Beeper beeper;
     public TMP_Text messageText;
@@ -59,13 +60,21 @@ public class Tutorial : MonoBehaviour
     }
 
     public void StartTutorial()
+    {        
+        tutorialActive = true;
+        StartCoroutine(PlayTutorialBeep());
+    }
+    private IEnumerator PlayTutorialBeep()
     {
-        //Debug.Log("start button pressed");
-        beeper.StartBeeping();
-
-        DisplayMessage("Get ready.....");
-
-        clearMessageTime = Time.realtimeSinceStartup + beeper.timeBetweenBeepsSeconds - 1;
+        while (tutorialActive)
+        {
+            yield return new WaitForSecondsRealtime(15f);
+            if (tutorialActive)
+            {
+                beeper.PlayBeep(0.004f);    
+            }
+            
+        }
     }
 
     public void LowBeepResponse()
@@ -127,6 +136,8 @@ public class Tutorial : MonoBehaviour
 
     public void StopTutorial()
     {
+        tutorialActive = false;
+        StopCoroutine(PlayTutorialBeep());
         beeper.StopBeeping();
     }
 

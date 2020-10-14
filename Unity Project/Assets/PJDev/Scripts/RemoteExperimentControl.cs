@@ -18,7 +18,7 @@ public class RemoteExperimentControl : MonoBehaviour
     private static int currentVideo = 0;
     private UserInput userInput;
     private string videoPath;
-    private string[] videoNames = {"video_1.mp4", "video_2.mp4", "video_3.mp4", "video_4.mp4", "video_5.mp4"};
+    private string[] videoNames = { "video_1.mp4", "video_2.mp4", "video_3.mp4", "video_4.mp4", "video_5.mp4" };
     private bool awaitingUserResponse = false;
     private float timeToHideCursor;
     public TMP_InputField participantNumber;
@@ -37,6 +37,7 @@ public class RemoteExperimentControl : MonoBehaviour
         userInput.UserResponse.LowBeep.performed += _ => LowBeepUserResponse();
         userInput.UserResponse.HighBeep.performed += _ => HighBeepUserResponse();
 
+        beeper.videoPlayer = videoPlayer;
         beeper.onBeep = BeepTriggered;
 
         timeToHideCursor = Time.realtimeSinceStartup + 3;
@@ -63,7 +64,7 @@ public class RemoteExperimentControl : MonoBehaviour
 
     void Update()
     {
-        if(Cursor.visible && Time.realtimeSinceStartup > timeToHideCursor)
+        if (Cursor.visible && Time.realtimeSinceStartup > timeToHideCursor)
         {
             Cursor.visible = false;
         }
@@ -71,8 +72,8 @@ public class RemoteExperimentControl : MonoBehaviour
 
 
     public void BeginExperiment()
-    {     
-        if(!InitialiseLogFile())
+    {
+        if (!InitialiseLogFile())
         {
             return;
         }
@@ -91,7 +92,7 @@ public class RemoteExperimentControl : MonoBehaviour
 
     bool InitialiseLogFile()
     {
-        if(!DataLogger.Instance.SetFileName("Results.txt"))
+        if (!DataLogger.Instance.SetFileName("Results.txt"))
         {
             DisplayMessage("Problem opening experiment save file");
             return false;
@@ -112,12 +113,12 @@ public class RemoteExperimentControl : MonoBehaviour
         Debug.Log("Playing: " + url);
         DataLogger.Instance.WriteToFile("Playing: " + videoName);
 
-        PlayVideo(url);       
+        PlayVideo(url);
     }
 
     void PlayVideo(string url)
     {
-        if(!File.Exists(url))
+        if (!File.Exists(url))
         {
             DisplayMessage("File not found: " + url);
             return;
@@ -134,13 +135,13 @@ public class RemoteExperimentControl : MonoBehaviour
         beeper.StartBeeping();
     }
 
-    void endOfVideoReached (VideoPlayer source)
+    void endOfVideoReached(VideoPlayer source)
     {
         beeper.StopBeeping();
         Debug.Log("video_" + currentVideo + ".mp4 finished.");
         DataLogger.Instance.WriteToFile("video_" + currentVideo + ".mp4 finished.");
         currentVideo += 1;
-        if(currentVideo > 5)
+        if (currentVideo > 5)
         {
             EndExperiment();
         }
@@ -153,7 +154,7 @@ public class RemoteExperimentControl : MonoBehaviour
 
     void Pause()
     {
-        if(videoPlayer.isPaused)
+        if (videoPlayer.isPaused)
         {
             videoPlayer.Play();
             beeper.StartBeeping();
@@ -177,11 +178,15 @@ public class RemoteExperimentControl : MonoBehaviour
     }
 
     private void BeepTriggered()
+    // what is this?
     {
         Debug.Log("BeepTriggered");
 
-        if(awaitingUserResponse && beeper.previousBeepState != Beeper.BeepState.None)
+        if (awaitingUserResponse && beeper.previousBeepState != Beeper.BeepState.None)
         {
+            //mistake: here videoPlayer.time logs the time of the beep that was played after the one that was missed.
+            //e.g. if the first beep is missed the value will be 30, instead of 15. this is kept for backward compatibility and ease of analysis
+            //since 11 participants have already used the code this way.
             LogResult(beeper.previousBeepState, false, -1, videoPlayer.time);
         }
 
@@ -190,20 +195,20 @@ public class RemoteExperimentControl : MonoBehaviour
 
     public void LowBeepUserResponse()
     {
-        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
+        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepRealTime();
 
         Beeper.BeepState beepState = beeper.beepState;
 
 
-        if(beepState == Beeper.BeepState.None || awaitingUserResponse == false)
+        if (beepState == Beeper.BeepState.None || awaitingUserResponse == false)
         {
             return;
         }
 
-        if(beepState == Beeper.BeepState.Low)
+        if (beepState == Beeper.BeepState.Low)
         {
             LogResult(beepState, true, responseDelay, videoPlayer.time);
-        } 
+        }
         else
         {
             LogResult(beepState, false, responseDelay, videoPlayer.time);
@@ -217,19 +222,19 @@ public class RemoteExperimentControl : MonoBehaviour
 
     public void HighBeepUserResponse()
     {
-        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepTime();
+        float responseDelay = Time.realtimeSinceStartup - beeper.GetLastBeepRealTime();
 
         Beeper.BeepState beepState = beeper.beepState;
 
-        if(beepState == Beeper.BeepState.None || awaitingUserResponse == false)
+        if (beepState == Beeper.BeepState.None || awaitingUserResponse == false)
         {
             return;
         }
 
-        if(beepState == Beeper.BeepState.High)
+        if (beepState == Beeper.BeepState.High)
         {
             LogResult(beepState, true, responseDelay, videoPlayer.time);
-        } 
+        }
         else
         {
             LogResult(beepState, false, responseDelay, videoPlayer.time);
@@ -239,14 +244,14 @@ public class RemoteExperimentControl : MonoBehaviour
 
         awaitingUserResponse = false;
 
-        
+
     }
 
-    void LogResult(Beeper.BeepState type, bool correct, float responseDelay, double videoTime)
+    void LogResult(Beeper.BeepState type, bool correctness, float responseDelay, double videoTime)
     {
-        Debug.Log(type.ToString() + ", " + correct + ", " + responseDelay + ", " + videoTime);
-        
-        DataLogger.Instance.WriteToFile(type.ToString() + ", " + correct + ", " + responseDelay + ", " + videoTime);
+        Debug.Log(type.ToString() + ", " + correctness + ", " + responseDelay + ", " + videoTime);
+
+        DataLogger.Instance.WriteToFile(type.ToString() + ", " + correctness + ", " + responseDelay + ", " + videoTime);
     }
 
 
